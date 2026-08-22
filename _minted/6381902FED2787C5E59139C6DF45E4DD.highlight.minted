@@ -1,0 +1,19 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{Usage:}
+\PYG{c+cm}{\PYGZhy{} dfs(u, p): dfs, what the fuck}
+\PYG{c+cm}{\PYGZhy{} Return the order of edge you enter (in reverse)}
+\PYG{c+cm}{*/}
+
+\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{ans}\PYG{p}{;}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{find\PYGZus{}eulerian\PYGZus{}path}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{u}\PYG{p}{)\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{while}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{[}\PYG{n}{u}\PYG{p}{].}\PYG{n}{size}\PYG{p}{())\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{v}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{graph}\PYG{p}{[}\PYG{n}{u}\PYG{p}{].}\PYG{n}{back}\PYG{p}{();}\PYG{+w}{ }\PYG{n}{graph}\PYG{p}{[}\PYG{n}{u}\PYG{p}{].}\PYG{n}{pop\PYGZus{}back}\PYG{p}{();}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{used}\PYG{p}{[}\PYG{n}{v}\PYG{p}{.}\PYG{n}{second}\PYG{p}{])}\PYG{+w}{ }\PYG{k}{continue}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{used}\PYG{p}{[}\PYG{n}{v}\PYG{p}{.}\PYG{n}{second}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{true}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{find\PYGZus{}eulerian\PYGZus{}path}\PYG{p}{(}\PYG{n}{v}\PYG{p}{.}\PYG{n}{first}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{ans}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{v}\PYG{p}{.}\PYG{n}{first}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\PYG{+w}{ }
+\end{MintedVerbatim}

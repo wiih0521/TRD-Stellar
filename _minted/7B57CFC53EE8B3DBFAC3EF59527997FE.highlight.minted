@@ -1,0 +1,18 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{p}{@}\PYG{k}{echo} off
+\PYG{k}{title} Bench Marker 6000
+\PYG{k}{echo} Compiling files, please wait...
+g++ \PYGZhy{}O2 \PYGZhy{}Wl,\PYGZhy{}\PYGZhy{}stack=268435456 \PYGZhy{}std=c++11   \PYGZhy{}o test.exe test.cpp
+\PYG{k}{echo} Done compiling test generator!
+g++ \PYGZhy{}O2 \PYGZhy{}Wl,\PYGZhy{}\PYGZhy{}stack=268435456 \PYGZhy{}std=c++11   \PYGZhy{}o sol.exe sol.cpp
+\PYG{k}{echo} Done compiling (probably) faulty submission!
+
+\PYG{k}{for} \PYG{k}{/l} \PYG{l+s+se}{\PYGZpc{}\PYGZpc{}}x \PYG{k}{in} \PYG{p}{(}\PYG{l+m+mi}{1}, \PYG{l+m+mi}{1}, \PYG{l+m+mi}{1000}\PYG{p}{)} \PYG{k}{do} \PYG{p}{(}
+	\PYG{k}{echo} Test case numero: \PYG{l+s+se}{\PYGZpc{}\PYGZpc{}}x
+	test \PYG{p}{\PYGZgt{}} input.inp
+	sol \PYG{p}{\PYGZlt{}} input.inp \PYG{p}{\PYGZgt{}} output.out
+\PYG{p}{)}
+
+\PYG{k}{pause} 
+\PYG{k}{exit}
+\end{MintedVerbatim}

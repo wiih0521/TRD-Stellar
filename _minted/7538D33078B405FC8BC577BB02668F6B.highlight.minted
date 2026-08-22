@@ -1,0 +1,19 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{ * Usage : }
+\PYG{c+cm}{ * Computes the pair of points at which two circles intersect. \PYGZhy{}\PYGZgt{} out}
+\PYG{c+cm}{ * Returns false in case of no intersection.}
+\PYG{c+cm}{ */}
+
+\PYG{k}{typedef}\PYG{+w}{ }\PYG{n}{Point}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{double}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{P}\PYG{p}{;}
+\PYG{k+kt}{bool}\PYG{+w}{ }\PYG{n+nf}{circleInter}\PYG{p}{(}\PYG{n}{P}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{n}{P}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{,}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{r1}\PYG{p}{,}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{r2}\PYG{p}{,}\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{n}{P}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{P}\PYG{o}{\PYGZgt{}*}\PYG{+w}{ }\PYG{n}{out}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{	}\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{a}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n}{assert}\PYG{p}{(}\PYG{n}{r1}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{n}{r2}\PYG{p}{);}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nb}{false}\PYG{p}{;}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{	}\PYG{n}{P}\PYG{+w}{ }\PYG{n}{vec}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{b}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{;}
+\PYG{+w}{	}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{d2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{vec}\PYG{p}{.}\PYG{n}{dist2}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{sum}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{r1}\PYG{o}{+}\PYG{n}{r2}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{dif}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{r1}\PYG{o}{\PYGZhy{}}\PYG{n}{r2}\PYG{p}{,}
+\PYG{+w}{	       }\PYG{n}{p}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{d2}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{r1}\PYG{o}{*}\PYG{n}{r1}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{r2}\PYG{o}{*}\PYG{n}{r2}\PYG{p}{)}\PYG{o}{/}\PYG{p}{(}\PYG{n}{d2}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{h2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{r1}\PYG{o}{*}\PYG{n}{r1}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{p}\PYG{o}{*}\PYG{n}{p}\PYG{o}{*}\PYG{n}{d2}\PYG{p}{;}
+\PYG{+w}{	}\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{sum}\PYG{o}{*}\PYG{n}{sum}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{d2}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n}{dif}\PYG{o}{*}\PYG{n}{dif}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{d2}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nb}{false}\PYG{p}{;}
+\PYG{+w}{	}\PYG{n}{P}\PYG{+w}{ }\PYG{n}{mid}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{a}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{vec}\PYG{o}{*}\PYG{n}{p}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{per}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{vec}\PYG{p}{.}\PYG{n}{perp}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{fmax}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{h2}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n}{d2}\PYG{p}{);}
+\PYG{+w}{	}\PYG{o}{*}\PYG{n}{out}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n}{mid}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{per}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{mid}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{per}\PYG{p}{\PYGZcb{};}
+\PYG{+w}{	}\PYG{k}{return}\PYG{+w}{ }\PYG{n+nb}{true}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

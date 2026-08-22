@@ -1,0 +1,31 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+/*
+    chmod +x run.sh
+    ./run.sh
+*/
+
+\PYGZsh{}!/bin/bash
+g++ \PYGZhy{}O3 \PYGZhy{}std=c++17 gen.cpp \PYGZhy{}o gen \PYG{p}{||} \PYG{k}{exit} 1
+g++ \PYGZhy{}O3 \PYGZhy{}std=c++17 brute.cpp \PYGZhy{}o brute \PYG{p}{||} \PYG{k}{exit} 1
+g++ \PYGZhy{}O3 \PYGZhy{}std=c++17 sol.cpp \PYGZhy{}o sol \PYG{p}{||} \PYG{k}{exit} 1
+
+\PYG{k}{for} ((i = 1; ; ++i)); do
+    ./gen \PYG{p}{\PYGZgt{}} input.txt
+    ./brute \PYG{p}{\PYGZlt{}} input.txt \PYG{p}{\PYGZgt{}} brute\PYGZus{}out.txt
+    ./sol \PYG{p}{\PYGZlt{}} input.txt \PYG{p}{\PYGZgt{}} sol\PYGZus{}out.txt
+
+    if ! diff \PYGZhy{}w brute\PYGZus{}out.txt sol\PYGZus{}out.txt \PYG{p}{\PYGZgt{}} /dev/null; then
+        echo \PYG{l+s+s2}{\PYGZdq{}==============================\PYGZdq{}}
+        echo \PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}\PYGZhy{}\PYGZgt{} WA o test \PYGZdl{}i!\PYGZdq{}}
+        echo \PYG{l+s+s2}{\PYGZdq{}Input:\PYGZdq{}}
+        cat input.txt
+        echo \PYG{l+s+s2}{\PYGZdq{}Expected Output (Brute):\PYGZdq{}}
+        cat brute\PYGZus{}out.txt
+        echo \PYG{l+s+s2}{\PYGZdq{}Your Output (Sol):\PYGZdq{}}
+        cat sol\PYGZus{}out.txt
+        echo \PYG{l+s+s2}{\PYGZdq{}==============================\PYGZdq{}}
+        break
+    fi
+    echo \PYG{l+s+s2}{\PYGZdq{}Passed test \PYGZdl{}i\PYGZdq{}}
+done
+\end{MintedVerbatim}

@@ -1,0 +1,16 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYGZob{}
+    \PYG{l+s+s2}{\PYGZdq{}encoding\PYGZdq{}}: \PYG{l+s+s2}{\PYGZdq{}utf\PYGZhy{}8\PYGZdq{}},
+    \PYG{l+s+s2}{\PYGZdq{}working\PYGZus{}dir\PYGZdq{}}: \PYG{l+s+s2}{\PYGZdq{}\PYGZdl{}file\PYGZus{}path\PYGZdq{}},
+    \PYG{l+s+s2}{\PYGZdq{}shell\PYGZus{}cmd\PYGZdq{}}: \PYG{l+s+s2}{\PYGZdq{}g++ \PYGZhy{}Wall \PYGZhy{}O2 \PYGZhy{}std=c++14 \PYGZhy{}o \PYGZdl{}\PYGZob{}file\PYGZus{}base\PYGZus{}name\PYGZcb{}.exe \PYGZdl{}\PYGZob{}file\PYGZus{}base\PYGZus{}name\PYGZcb{}.cpp\PYGZdq{}},
+    \PYG{l+s+s2}{\PYGZdq{}file\PYGZus{}regex\PYGZdq{}}: \PYG{l+s+s2}{\PYGZdq{}\PYGZca{}(..[\PYGZca{}:]*):([0\PYGZhy{}9]+):?([0\PYGZhy{}9]+)?:? (.*)\PYGZdl{}\PYGZdq{}},
+    \PYG{l+s+s2}{\PYGZdq{}selector\PYGZdq{}}: \PYG{l+s+s2}{\PYGZdq{}source.c++,source.c\PYGZdq{}},
+    \PYG{l+s+s2}{\PYGZdq{}variants\PYGZdq{}}:
+    [
+        \PYGZob{}   
+            \PYG{l+s+s2}{\PYGZdq{}name\PYGZdq{}}: \PYG{l+s+s2}{\PYGZdq{}Run\PYGZdq{}},
+            \PYG{l+s+s2}{\PYGZdq{}shell\PYGZus{}cmd\PYGZdq{}}: \PYG{l+s+s2}{\PYGZdq{}g++ \PYGZhy{}Wall \PYGZhy{}O2 \PYGZhy{}std=c++14 \PYGZbs{}\PYGZdq{}}\PYGZdl{}\PYGZob{}file\PYGZcb{}\PYGZbs{}\PYG{l+s+s2}{\PYGZdq{} \PYGZhy{}o \PYGZbs{}\PYGZdq{}}\PYGZdl{}\PYGZob{}file\PYGZus{}base\PYGZus{}name\PYGZcb{}\PYGZbs{}\PYG{l+s+s2}{\PYGZdq{} \PYGZam{}\PYGZam{} start cmd /c \PYGZbs{}\PYGZdq{}}\PYGZbs{}\PYG{l+s+s2}{\PYGZdq{}\PYGZdl{}\PYGZob{}file\PYGZus{}path\PYGZcb{}/\PYGZdl{}\PYGZob{}file\PYGZus{}base\PYGZus{}name\PYGZcb{}\PYGZbs{}\PYGZdq{}} \PYG{p}{\PYGZam{}} \PYG{k}{pause}\PYGZbs{}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+        \PYGZcb{}
+    ]
+\PYGZcb{}
+\end{MintedVerbatim}

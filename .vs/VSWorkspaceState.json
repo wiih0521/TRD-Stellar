@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\source",
+    "\\source\\Arithmetic",
+    "\\source\\Combinatorics",
+    "\\source\\Data_Structure",
+    "\\source\\Geometry",
+    "\\source\\Graph",
+    "\\source\\Misc",
+    "\\source\\String",
+    "\\source\\Tree"
+  ],
+  "SelectedNode": "\\source\\Combinatorics\\FFT-NTT.cpp",
+  "PreviewInSolutionExplorer": false
+}

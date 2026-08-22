@@ -1,0 +1,13 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+[
+	
+	\PYGZob{} \PYG{l+s+s2}{\PYGZdq{}keys\PYGZdq{}}: [\PYG{l+s+s2}{\PYGZdq{}f9\PYGZdq{}}], \PYG{l+s+s2}{\PYGZdq{}command\PYGZdq{}}: \PYG{l+s+s2}{\PYGZdq{}build\PYGZdq{}} \PYGZcb{},
+	
+	\PYGZob{} \PYG{l+s+s2}{\PYGZdq{}keys\PYGZdq{}}: [\PYG{l+s+s2}{\PYGZdq{}ctrl+shift+x\PYGZdq{}}], \PYG{l+s+s2}{\PYGZdq{}command\PYGZdq{}}: \PYG{l+s+s2}{\PYGZdq{}toggle\PYGZus{}comment\PYGZdq{}}, \PYG{l+s+s2}{\PYGZdq{}args\PYGZdq{}}: \PYGZob{} \PYG{l+s+s2}{\PYGZdq{}block\PYGZdq{}}: false \PYGZcb{} \PYGZcb{},
+	
+	\PYGZob{} \PYG{l+s+s2}{\PYGZdq{}keys\PYGZdq{}}: [\PYG{l+s+s2}{\PYGZdq{}ctrl+shift+c\PYGZdq{}}], \PYG{l+s+s2}{\PYGZdq{}command\PYGZdq{}}: \PYG{l+s+s2}{\PYGZdq{}toggle\PYGZus{}comment\PYGZdq{}}, \PYG{l+s+s2}{\PYGZdq{}args\PYGZdq{}}: \PYGZob{} \PYG{l+s+s2}{\PYGZdq{}block\PYGZdq{}}: false \PYGZcb{} \PYGZcb{},
+
+	\PYGZob{} \PYG{l+s+s2}{\PYGZdq{}keys\PYGZdq{}}: [\PYG{l+s+s2}{\PYGZdq{}ctrl+f12\PYGZdq{}}], \PYG{l+s+s2}{\PYGZdq{}command\PYGZdq{}}: \PYG{l+s+s2}{\PYGZdq{}sort\PYGZus{}lines\PYGZdq{}}, \PYG{l+s+s2}{\PYGZdq{}args\PYGZdq{}}: \PYGZob{}\PYG{l+s+s2}{\PYGZdq{}case\PYGZus{}sensitive\PYGZdq{}}: false\PYGZcb{} \PYGZcb{},
+	\PYGZob{} \PYG{l+s+s2}{\PYGZdq{}keys\PYGZdq{}}: [\PYG{l+s+s2}{\PYGZdq{}ctrl+shift+f12\PYGZdq{}}], \PYG{l+s+s2}{\PYGZdq{}command\PYGZdq{}}: \PYG{l+s+s2}{\PYGZdq{}sort\PYGZus{}lines\PYGZdq{}}, \PYG{l+s+s2}{\PYGZdq{}args\PYGZdq{}}: \PYGZob{}\PYG{l+s+s2}{\PYGZdq{}case\PYGZus{}sensitive\PYGZdq{}}: true\PYGZcb{} \PYGZcb{},
+]
+\end{MintedVerbatim}

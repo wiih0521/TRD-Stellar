@@ -1,0 +1,11 @@
+[
+	
+	{ "keys": ["f9"], "command": "build" },
+	
+	{ "keys": ["ctrl+shift+x"], "command": "toggle_comment", "args": { "block": false } },
+	
+	{ "keys": ["ctrl+shift+c"], "command": "toggle_comment", "args": { "block": false } },
+
+	{ "keys": ["ctrl+f12"], "command": "sort_lines", "args": {"case_sensitive": false} },
+	{ "keys": ["ctrl+shift+f12"], "command": "sort_lines", "args": {"case_sensitive": true} },
+]
