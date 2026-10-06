@@ -6,7 +6,7 @@
 \contentsline {subsection}{\numberline {1.5}Min Plus Convolution}{2}{}%
 \contentsline {subsection}{\numberline {1.6}Mathematics}{2}{}%
 \contentsline {subsection}{\numberline {1.7}CP Sublime 3 Build}{2}{}%
-\contentsline {subsection}{\numberline {1.8}CP Sublime 3 Keymap}{2}{}%
+\contentsline {subsection}{\numberline {1.8}CP Sublime 3 Keymap}{3}{}%
 \contentsline {section}{\numberline {2}Data Structure}{3}{}%
 \contentsline {subsection}{\numberline {2.1}Line Container}{3}{}%
 \contentsline {subsection}{\numberline {2.2}Convex Hull Trick}{3}{}%
@@ -58,13 +58,13 @@
 \contentsline {subsection}{\numberline {7.8}Lagrange Interpol}{19}{}%
 \contentsline {subsection}{\numberline {7.9}Miller Rabin}{20}{}%
 \contentsline {subsection}{\numberline {7.10}Pollard Rho}{20}{}%
-\contentsline {subsection}{\numberline {7.11}Pythagorean Triples}{20}{}%
+\contentsline {subsection}{\numberline {7.11}Pythagorean Triples}{21}{}%
 \contentsline {subsection}{\numberline {7.12}Big Num Short}{21}{}%
 \contentsline {subsection}{\numberline {7.13}Sqrt Mod}{21}{}%
 \contentsline {subsection}{\numberline {7.14}Super Eratosthene}{21}{}%
 \contentsline {section}{\numberline {8}Combinatorics}{22}{}%
 \contentsline {subsection}{\numberline {8.1}FFT (Integer)}{22}{}%
-\contentsline {subsection}{\numberline {8.2}FFT (Float)}{22}{}%
+\contentsline {subsection}{\numberline {8.2}FFT (Float)}{23}{}%
 \contentsline {subsection}{\numberline {8.3}Matrix}{23}{}%
 \contentsline {subsection}{\numberline {8.4}Modular}{23}{}%
 \contentsline {subsection}{\numberline {8.5}FFT + Poly Utilities}{24}{}%

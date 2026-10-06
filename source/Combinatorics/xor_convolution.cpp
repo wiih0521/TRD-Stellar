@@ -3,7 +3,6 @@ Xor convolution:
 - Usage: xormul(a, b, &c);
 */
 
-
 const int mod = 998244353;
 
 int inverse(int x, int mod) {

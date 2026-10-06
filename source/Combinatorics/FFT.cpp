@@ -3,10 +3,7 @@ Usage:
 - conv: multiply A and B modulo 998244353
 */
 
-
-
 namespace PolyMul {
-
     using namespace std;
     using cd = complex<double>;
     const double PI = acos(-1);
