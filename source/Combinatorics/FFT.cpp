@@ -37,6 +37,7 @@ namespace PolyMul {
 
     // Multiply two polynomials
     vector<double> multiply(const vector<double>& a, const vector<double>& b) {
+        if (a.empty() || b.empty()) return {};
         int n = 1;
         int total_size = a.size() + b.size() - 1;
         while (n < total_size) n <<= 1;  // Ensure n is a power of two

@@ -1,71 +1,39 @@
-
-const int MOD = 1e9 + 9;
- 
-ll fast_pow(ll a, ll n){
-    ll ans = 1;
-    while(n > 0){
-        if (n & 1) ans = ans * a % MOD;
-        a = a * a % MOD;
-        n /= 2;
+// Gaussian elimination modulo prime MOD_GAUSS. Returns rank or -1 if inconsistent.
+const long long MOD_GAUSS = 1000000009;
+long long gaussPower(long long a, long long e) {
+    long long r = 1;
+    while (e) {
+        if (e & 1) r = r * a % MOD_GAUSS;
+        a = a * a % MOD_GAUSS; e >>= 1;
     }
-    return ans;
+    return r;
 }
- 
-ll inverse(ll a){return fast_pow(a, MOD - 2);}
- 
-ll normie(ll x){
-    x %= MOD;
-    if (x < 0) x += MOD;
-    return x;
-}
-
-vector<ll> solve(vector<vector<ll>> sigma){
-    int n = sigma.size(),m = sigma[0].size() - 1;
-    vector<bool> banned(n);
-    for(int j = 0; j<m; ++j){
-        int idx = -1;
-        for(int i = 0; i<n; ++i) if (!banned[i] && sigma[i][j]) {
-            idx = i; 
-            ll head = sigma[i][j];
-            ll inv = inverse(head);
-            for(int k = 0; k <= m; ++k) sigma[i][k] = (sigma[i][k] * inv) % MOD;
+int solveLinearMod(vector<vector<long long>>& A, vector<long long>& b,
+                   vector<long long>& x) {
+    int n = (int)A.size(), m = n ? (int)A[0].size() : (int)x.size(), rank = 0;
+    auto norm = [](long long v) { v %= MOD_GAUSS; return v < 0 ? v + MOD_GAUSS : v; };
+    vector<int> where(m, -1);
+    for (auto& row : A) for (long long& v : row) v = norm(v);
+    for (long long& v : b) v = norm(v);
+    for (int col = 0; col < m && rank < n; ++col) {
+        int pivot = rank;
+        while (pivot < n && A[pivot][col] == 0) ++pivot;
+        if (pivot == n) continue;
+        swap(A[pivot], A[rank]); swap(b[pivot], b[rank]);
+        where[col] = rank;
+        long long inv = gaussPower(A[rank][col], MOD_GAUSS - 2);
+        for (int c = col; c < m; ++c) A[rank][c] = A[rank][c] * inv % MOD_GAUSS;
+        b[rank] = b[rank] * inv % MOD_GAUSS;
+        for (int r = 0; r < n; ++r) if (r != rank && A[r][col]) {
+            long long factor = A[r][col];
+            for (int c = col; c < m; ++c)
+                A[r][c] = norm(A[r][c] - factor * A[rank][c] % MOD_GAUSS);
+            b[r] = norm(b[r] - factor * b[rank] % MOD_GAUSS);
         }
-        if (idx == -1) continue;
-        banned[idx] = true;
-        for(int i = 0; i<n; ++i) if (sigma[i][j] && i != idx){
-            for(int k = 0; k <= m; ++k) sigma[i][k] = normie(sigma[i][k] - sigma[idx][k]);
-        }
+        ++rank;
     }
- 
-    vector<int> deg(n);
-    for(int i = 0; i<n; ++i){
-        deg[i] = m;
-        for(int j = 0; j < m; ++j) if (sigma[i][j]){
-            deg[i] = j;
-            break;
-        }
-    }
-    for(int i = 0; i<n; ++i){
-        if (deg[i] == m) continue;
-        while(true){
-            int v = m;
-            for(int j = deg[i] + 1; j < m; ++j) if (sigma[i][j]){
-                v = j;
-                break;
-            }
-            if (v == m) break;
-            for(int x = 0; x < n; ++x) if (deg[x] == v){
-                ll shit = inverse(sigma[x][v]) * sigma[i][v] % MOD;
-                for(int j = 0; j <= m; ++j) {
-                    sigma[i][j] = normie(sigma[i][j] - shit * sigma[x][j]);
-                }
-                break;
-            }
-        }
-    }
-    vector<ll> ans(m);
-    for(int i = 0; i<n; ++i) {
-        ans[deg[i]] = sigma[i].back();
-    }
-    return ans;
+    for (int r = rank; r < n; ++r) if (b[r]) return -1;
+    x.assign(m, 0);
+    for (int col = 0; col < m; ++col) if (where[col] != -1) x[col] = b[where[col]];
+    return rank;
 }

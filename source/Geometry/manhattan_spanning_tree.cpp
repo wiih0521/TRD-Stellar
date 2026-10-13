@@ -7,14 +7,12 @@ struct Path{
 typedef Point<ll> P;
 const ll INF = 1e18;
 namespace ManhattanSpanningTreeSolver {
-    #define sz(v) ((int)v.size())
-
     vector<Path> solve(vector<P> ps) {
-        vector<int> id(sz(ps));
-        iota(ALL(id), 0);
+        vector<int> id(ps.size());
+        iota(id.begin(), id.end(), 0);
         vector<Path> edges;
         for(int k = 0; k < 4; ++k) {
-            sort(ALL(id), [&](int i, int j) {
+            sort(id.begin(), id.end(), [&](int i, int j) {
                 return (ps[i]-ps[j]).x < (ps[j]-ps[i]).y;});
             map<ll, int> sweep;
             for (int i : id) {

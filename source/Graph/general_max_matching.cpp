@@ -1,85 +1,91 @@
-/*
-Usage: 
- - Blossom(n): initialize a graph of size n
- - add_edge(u, v): add an edge from u to v
- - max_matching(): compute max matching
-*/
-
+// Edmonds' blossom algorithm for an undirected graph. O(n^3).
 struct Blossom {
-    int N;
-    vector<int> match, par, base, vis;
-    vector<vector<int>> adj;
-    queue<int> Q;
+    int n;
+    vector<vector<int>> graph;
+    vector<int> match, parent, base, queue;
+    vector<bool> used, inBlossom;
 
-    Blossom(int n) : N(n), match(n, -1), par(n, -1), base(n), vis(n, -1), adj(n) {
+    Blossom(int n) : n(n), graph(n), match(n, -1), parent(n),
+        base(n), queue(n), used(n), inBlossom(n) {}
+
+    void addEdge(int a, int b) {
+        assert(a != b);
+        graph[a].push_back(b);
+        graph[b].push_back(a);
+    }
+
+    int lca(int a, int b) {
+        vector<bool> seen(n);
+        while (true) {
+            a = base[a];
+            seen[a] = true;
+            if (match[a] == -1) break;
+            a = parent[match[a]];
+        }
+        while (true) {
+            b = base[b];
+            if (seen[b]) return b;
+            b = parent[match[b]];
+        }
+    }
+
+    void markPath(int vertex, int root, int child) {
+        while (base[vertex] != root) {
+            inBlossom[base[vertex]] = inBlossom[base[match[vertex]]] = true;
+            parent[vertex] = child;
+            child = match[vertex];
+            vertex = parent[match[vertex]];
+        }
+    }
+
+    int findPath(int root) {
+        fill(used.begin(), used.end(), false);
+        fill(parent.begin(), parent.end(), -1);
         iota(base.begin(), base.end(), 0);
-    }
-
-    void add_edge(int u, int v) {
-        adj[u].push_back(v);
-        adj[v].push_back(u);
-    }
-
-    int find_lca(int u, int v) {
-        vector<bool> visited(N);
-        while (1) {
-            u = base[u];
-            visited[u] = true;
-            if (match[u] == -1) break;
-            u = par[match[u]];
-        }
-        while (1) {
-            v = base[v];
-            if (visited[v]) return v;
-            v = par[match[v]];
-        }
-    }
-
-    void blossom(int u, int v, int lca) {
-        while (base[u] != lca) {
-            par[u] = v;
-            v = match[u];
-            if (vis[v] == 1) Q.push(v), vis[v] = 0;
-            base[u] = base[v] = lca;
-            u = par[v];
-        }
-    }
-
-    bool bfs(int root) {
-        fill(vis.begin(), vis.end(), -1);
-        Q = queue<int>();
-        Q.push(root), vis[root] = 0;
-
-        while (!Q.empty()) {
-            int u = Q.front();
-            Q.pop();
-            for (int v : adj[u]) {
-                if (vis[v] == -1) {
-                    vis[v] = 1, par[v] = u;
-                    if (match[v] == -1) {
-                        while (u != -1) {
-                            int next_u = match[u];
-                            match[u] = v, match[v] = u;
-                            v = next_u, u = (v == -1) ? -1 : par[v];
+        int head = 0, tail = 0;
+        queue[tail++] = root;
+        used[root] = true;
+        while (head < tail) {
+            int vertex = queue[head++];
+            for (int to : graph[vertex]) {
+                if (base[vertex] == base[to] || match[vertex] == to) continue;
+                if (to == root || (match[to] != -1
+                        && parent[match[to]] != -1)) {
+                    int rootBase = lca(vertex, to);
+                    fill(inBlossom.begin(), inBlossom.end(), false);
+                    markPath(vertex, rootBase, to);
+                    markPath(to, rootBase, vertex);
+                    for (int i = 0; i < n; ++i)
+                        if (inBlossom[base[i]]) {
+                            base[i] = rootBase;
+                            if (!used[i]) used[i] = true, queue[tail++] = i;
                         }
-                        return true;
-                    }
-                    Q.push(match[v]), vis[match[v]] = 0;
-                } else if (vis[v] == 0 && base[u] != base[v]) {
-                    int lca = find_lca(u, v);
-                    blossom(u, v, lca);
-                    blossom(v, u, lca);
+                } else if (parent[to] == -1) {
+                    parent[to] = vertex;
+                    if (match[to] == -1) return to;
+                    to = match[to];
+                    used[to] = true;
+                    queue[tail++] = to;
                 }
             }
         }
-        return false;
+        return -1;
     }
 
-    int max_matching() {
-        int res = 0;
-        for (int u = 0; u < N; ++u)
-            if (match[u] == -1 && bfs(u))
-                ++res;
-        return res;
+    int maxMatching() {
+        int result = 0;
+        for (int vertex = 0; vertex < n; ++vertex) if (match[vertex] == -1) {
+            int endpoint = findPath(vertex);
+            if (endpoint == -1) continue;
+            ++result;
+            while (endpoint != -1) {
+                int previous = parent[endpoint];
+                int next = previous == -1 ? -1 : match[previous];
+                if (previous != -1)
+                    match[endpoint] = previous, match[previous] = endpoint;
+                endpoint = next;
+            }
+        }
+        return result;
     }
 };

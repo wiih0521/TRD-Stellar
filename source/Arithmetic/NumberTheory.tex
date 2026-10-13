@@ -1,0 +1,26 @@
+\begingroup\small
+For $d=\gcd(a,b)$, $ax+by=c$ is solvable iff $d\mid c$. Given one solution
+$(x_0,y_0)$, all solutions are
+\[
+ x=x_0+k\frac bd,\qquad y=y_0-k\frac ad,\qquad k\in\mathbb Z.
+\]
+\begin{align*}
+ \varphi(n)&=n\prod_{p\mid n}\left(1-\frac1p\right),&
+ \sum_{d\mid n}\varphi(d)&=n,\\
+ a^{\varphi(n)}&\equiv1\pmod n &&(\gcd(a,n)=1).
+\end{align*}
+\[
+ \mu(n)=\begin{cases}
+ 0&\text{$n$ is not square-free},\\
+ (-1)^k&\text{$n$ is a product of $k$ distinct primes},
+ \end{cases}
+ \qquad
+ g(n)=\sum_{d\mid n}f(d)
+\]
+\[
+ \Longleftrightarrow\qquad
+ f(n)=\sum_{d\mid n}\mu(d)g(n/d).
+\]
+Primitive roots exist modulo $2,4,p^k,2p^k$ for odd prime $p$.
+For prime $p$, $a^{p-1}\equiv1\pmod p$ when $p\nmid a$.
+\endgroup

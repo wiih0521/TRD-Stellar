@@ -1,0 +1,35 @@
+\begingroup\small
+Let a triangle have sides $a,b,c$, semiperimeter $s$, area $K$, inradius
+$r$, circumradius $R$, and median $m_a$.
+\begin{align*}
+ s&=\frac{a+b+c}{2}, &
+ K&=\sqrt{s(s-a)(s-b)(s-c)}=rs=\frac{abc}{4R},\\
+ m_a&=\frac12\sqrt{2b^2+2c^2-a^2}, &
+ h_a&=\frac{2K}{a},\\
+ \ell_a&=\frac{\sqrt{bc((b+c)^2-a^2)}}{b+c}, &
+ OI^2&=R(R-2r).
+\end{align*}
+Centroid divides each median $2:1$. If the angle bisector from $A$ meets
+$BC$ at $D$, then $BD:DC=AB:AC$. For a cyclic quadrilateral,
+\[
+ AC\cdot BD=AB\cdot CD+BC\cdot DA,\qquad
+ K=\sqrt{(s-a)(s-b)(s-c)(s-d)}.
+\]
+For a circle of radius $r$ and central angle $\theta$ (radians),
+\[
+ L=r\theta,\qquad A_{\rm sector}=\frac{r^2\theta}{2},\qquad
+ A_{\rm segment}=\frac{r^2}{2}(\theta-\sin\theta).
+\]
+For a regular $n$-gon of side $a$,
+\[
+ R=\frac{a}{2\sin(\pi/n)},\quad r=\frac{a}{2\tan(\pi/n)},\quad
+ K=\frac{na^2}{4\tan(\pi/n)}.
+\]
+Pick's theorem for a lattice polygon: $K=I+B/2-1$. Common volumes:
+\begin{align*}
+ V_{\rm sphere}&=\frac43\pi r^3, & V_{\rm cone}&=\frac13\pi r^2h,\\
+ V_{\rm cylinder}&=\pi r^2h, & V_{\rm pyramid}&=\frac13Bh.
+\end{align*}
+For integer coordinates, use a wide type for cross products. For floating
+geometry, compare $|x|\le\varepsilon$ and avoid mixing incompatible epsilons.
+\endgroup

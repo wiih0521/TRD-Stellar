@@ -1,99 +1,77 @@
-/*
-Usage:
-- generate_block_cut_tree(): duh, also return number of vertices
-- cc[u]: vertices inside block u
-- sz[u]: number of vertices, -1 if is joint
-*/
+// Vertex-biconnected components and their block-cut forest. O(V+E).
+struct BlockCutTree {
+    int n, timer = 0;
+    vector<vector<pair<int, int>>> graph;
+    vector<int> tin, low, edgeStack, articulation, position;
+    vector<pair<int, int>> edges;
+    vector<vector<int>> blocks, tree;
 
+    BlockCutTree(int n) : n(n), graph(n), tin(n, -1), low(n),
+                          articulation(n), position(n, -1) {}
 
-const int N = 1e5 + 69;
-int n, m;
-vector<int> graph[N], dfs_tree[N];
- 
-int num[N], low[N];
-bool isJoint[N];
-vector<int> st;
-int dfs_cnt;
-vector<vector<int>> bbc;
- 
-void tarjan(int u, int p){
-    num[u] = low[u] = ++dfs_cnt;
- 
-    vector<int> child;
-    for(int v: graph[u]) {
-        if (v == p) {p = -1; continue;}
-        if (num[v]){
-            minimize(low[u], num[v]);
-        }
-        else{
-            child.push_back(v);
-            tarjan(v, u);
-            minimize(low[u], low[v]);
-            if (low[v] >= num[u]){
-                isJoint[u] = true;
+    void addEdge(int a, int b) {
+        int id = (int)edges.size();
+        edges.push_back({a, b});
+        graph[a].push_back({b, id});
+        graph[b].push_back({a, id});
+    }
+
+    void dfs(int vertex, int parentEdge) {
+        tin[vertex] = low[vertex] = timer++;
+        int children = 0;
+        for (auto item : graph[vertex]) {
+            int to = item.first, edge = item.second;
+            if (edge == parentEdge) continue;
+            if (tin[to] == -1) {
+                edgeStack.push_back(edge);
+                ++children;
+                dfs(to, edge);
+                low[vertex] = min(low[vertex], low[to]);
+                if (low[to] >= tin[vertex]) {
+                    if (parentEdge != -1 || children > 1)
+                        articulation[vertex] = true;
+                    vector<int> block;
+                    while (true) {
+                        int id = edgeStack.back();
+                        edgeStack.pop_back();
+                        block.push_back(edges[id].first);
+                        block.push_back(edges[id].second);
+                        if (id == edge) break;
+                    }
+                    sort(block.begin(), block.end());
+                    block.erase(unique(block.begin(), block.end()), block.end());
+                    blocks.push_back(move(block));
+                }
+            } else if (tin[to] < tin[vertex]) {
+                edgeStack.push_back(edge);
+                low[vertex] = min(low[vertex], tin[to]);
             }
         }
+        if (parentEdge == -1 && children <= 1) articulation[vertex] = false;
     }
-    if (u == p) isJoint[u] = isJoint[u] && (child.size() >= 2);
-    for(int v: child){
-        if (isJoint[u] && low[v] >= num[u]) dfs_tree[u].push_back(-v);
-        else dfs_tree[u].push_back(v);
-    }
-}
- 
-void get_block(int u){
-    st.push_back(u);
-    for(int v: dfs_tree[u]){
-        get_block(abs(v));
-        if (v < 0){
-            bbc.push_back({});
-            while(bbc.back().empty() || bbc.back().back() != abs(v)){
-                bbc.back().push_back(st.back());
-                st.pop_back();
+
+    // Articulation nodes come first, followed by component nodes.
+    void build() {
+        for (int vertex = 0; vertex < n; ++vertex) if (tin[vertex] == -1) {
+            if (graph[vertex].empty()) blocks.push_back({vertex});
+            else dfs(vertex, -1);
+        }
+        int nodes = 0;
+        for (int vertex = 0; vertex < n; ++vertex)
+            if (articulation[vertex]) position[vertex] = nodes++;
+        int blockStart = nodes;
+        nodes += blocks.size();
+        tree.assign(nodes, {});
+        for (int block = 0; block < (int)blocks.size(); ++block)
+            for (int vertex : blocks[block]) {
+                int blockNode = blockStart + block;
+                if (articulation[vertex]) {
+                    int jointNode = position[vertex];
+                    tree[jointNode].push_back(blockNode);
+                    tree[blockNode].push_back(jointNode);
+                } else {
+                    position[vertex] = blockNode;
+                }
             }
-            bbc.back().push_back(u);
-        }
     }
-}
- 
-vector<int> bc_tree[2*N];
-int joint_cnt = 0;
-int pos[2*N];
-int sz[2 * N];
-vector<int> cc[2 * N];
- 
-int generate_block_cut_tree(){
-    dfs_cnt = 0;
-    for(int i= 1; i<=n; ++i) if (num[i] == 0){
-        tarjan(i, i);
-        get_block(i);
-        if (st.size()) {
-            bbc.push_back(st);
-            st.clear();
-        }
-    }
- 
-    int idx = 0;
-    for(int i= 1; i<=n; ++i){
-        if (!isJoint[i]) continue;
-        joint_cnt++;
-        pos[i] = ++idx;
-        cc[idx].push_back(-i);
-        sz[idx] = 1;
-    }
- 
-    for(vector<int> i: bbc){
-        ++idx;
-        sz[idx] = i.size();
-        cc[idx] = i;
-        for(int j: i){
-            if (isJoint[j]){
-                int u = idx, v = pos[j];
-                sz[v]--;
-                bc_tree[u].push_back(v);
-                bc_tree[v].push_back(u);
-            }
-        }
-    }
-    return idx;
-}
+};

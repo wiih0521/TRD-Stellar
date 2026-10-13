@@ -12,6 +12,7 @@
 \ShowUsage
 \ShowComplexity
 \HideAuthor
+\setcounter{tocdepth}{1}
 
 \begin{document}
 
@@ -45,13 +46,6 @@
 \subsection{Mathematics} 
 \input{source/Misc/Mathematics.tex}
 
-\Algorithm{CP Sublime 3 Build}
-{}{}
-{batch}{source/Misc/CP.txt}
-
-\Algorithm{CP Sublime 3 Keymap}
-{}{}
-{batch}{source/Misc/Default.txt}
 
 
 
@@ -92,18 +86,103 @@
 
 
 
-
-
+\section{Trigonometry}
+\input{source/Geometry/Trigonometry.tex}
 
 \section {Geometry}
+
+\subsection{Formula Sheet}
+\input{source/Geometry/GeometryFormulas.tex}
 
 \Algorithm{Point Struct}
 {}{}
 {cpp}{source/Geometry/PointStructure.cpp}
 
-\Algorithm{Boiler Plate}
-{}{}
-{cpp}{source/Geometry/boiler_plate.cpp}
+\Algorithm{Line Distance}{}{$O(1)$}
+{cpp}{source/Geometry/LineDistance.cpp}
+
+\Algorithm{Segment Distance}{}{$O(1)$}
+{cpp}{source/Geometry/SegmentDistance.cpp}
+
+\Algorithm{Side of Line}{}{$O(1)$}
+{cpp}{source/Geometry/SideOf.cpp}
+
+\Algorithm{Point on Segment}{}{$O(1)$}
+{cpp}{source/Geometry/OnSegment.cpp}
+
+\Algorithm{Line Intersection}{}{$O(1)$}
+{cpp}{source/Geometry/LineIntersection.cpp}
+
+\Algorithm{Segment Intersection}{}{$O(1)$}
+{cpp}{source/Geometry/SegmentIntersection.cpp}
+
+\Algorithm{Line Projection and Reflection}{}{$O(1)$}
+{cpp}{source/Geometry/LineProjectionReflection.cpp}
+
+\Algorithm{Linear Transformation}{}{$O(1)$}
+{cpp}{source/Geometry/LinearTransformation.cpp}
+
+\Algorithm{Angle}
+{Exact integer-angle ordering for rotational sweeps.}{$O(1)$}
+{cpp}{source/Geometry/Angle.cpp}
+
+\Algorithm{Circle Tangents}{}{$O(1)$}
+{cpp}{source/Geometry/CircleTangents.cpp}
+
+\Algorithm{Circumcircle}{}{$O(1)$}
+{cpp}{source/Geometry/Circumcircle.cpp}
+
+\Algorithm{Polygon Area}{}{$O(n)$}
+{cpp}{source/Geometry/PolygonArea.cpp}
+
+\Algorithm{Polygon Center}{}{$O(n)$}
+{cpp}{source/Geometry/PolygonCenter.cpp}
+
+\Algorithm{Polygon Cut}{}{$O(n)$}
+{cpp}{source/Geometry/PolygonCut.cpp}
+
+\Algorithm{Polygon Union Area}
+{Input polygons must be simple and CCW.}{$O(N^2)$}
+{cpp}{source/Geometry/PolygonUnion.cpp}
+
+\Algorithm{Convex Hull}{}{$O(n\log n)$}
+{cpp}{source/Geometry/ConvexHull.cpp}
+
+\Algorithm{Point in Convex Hull}{}{$O(\log n)$}
+{cpp}{source/Geometry/PointInsideHull.cpp}
+
+\Algorithm{Line--Convex Hull Intersection}{}{$O(\log n)$}
+{cpp}{source/Geometry/LineHullIntersection.cpp}
+
+\Algorithm{Closest Pair}{}{$O(n\log n)$}
+{cpp}{source/Geometry/ClosestPair.cpp}
+
+\Algorithm{KD-tree}
+{Static nearest-neighbor queries.}
+{Build $O(n\log n)$, query average $O(\log n)$}
+{cpp}{source/Geometry/KDTree.cpp}
+
+\Algorithm{Delaunay Triangulation}
+{Via lifting to a 3D hull; excludes degenerate inputs.}{$O(n^2)$}
+{cpp}{source/Geometry/DelaunayTriangulation.cpp}
+
+\Algorithm{Fast Delaunay Triangulation}
+{Distinct integer points; collinear sets return no triangles.}{$O(n\log n)$}
+{cpp}{source/Geometry/FastDelaunay.cpp}
+
+\Algorithm{Point 3D}{}{}
+{cpp}{source/Geometry/Point3D.cpp}
+
+\Algorithm{3D Convex Hull}
+{At least four points; no four coplanar.}{$O(n^2)$}
+{cpp}{source/Geometry/Hull3D.cpp}
+
+\Algorithm{Polyhedron Volume}
+{Triangular faces must point outwards.}{$O(F)$}
+{cpp}{source/Geometry/PolyhedronVolume.cpp}
+
+\Algorithm{Spherical Distance}{}{$O(1)$}
+{cpp}{source/Geometry/SphericalDistance.cpp}
 
 \Algorithm{Circles Intersect}
 {}{}
@@ -116,10 +195,6 @@
 \Algorithm{Circle vs Line Intersect}
 {}{}
 {cpp}{source/Geometry/Circle_vs_Line_Intersect.cpp}
-
-\Algorithm{Complex Numbers Utils}  % Tên hiển thị trong teamnote
-{}{ }                               % Bạn có thể thêm chú thích / description nếu muốn
-{cpp}{source/Geometry/Complex.cpp}
 
 \Algorithm{Hull Diameter}
 {}{}
@@ -162,49 +237,103 @@
 
 \section{Graph}
 
-\Algorithm{Block Cut Tree}
-{}{}
-{cpp}{source/Graph/block_cut_tree.cpp}
+\Algorithm{Bellman--Ford}{}{$O(VE)$}
+{cpp}{source/Graph/BellmanFord.cpp}
 
-\Algorithm{Dominator Tree}
-{}{}
-{cpp}{source/Graph/DominatorTree.cpp}
+\Algorithm{Floyd--Warshall}{}{$O(V^3)$}
+{cpp}{source/Graph/FloydWarshall.cpp}
 
-\Algorithm{Eulerian Path}
-{}{}
-{cpp}{source/Graph/eulerian_path.cpp}
+\Algorithm{Topological Sort}{}{$O(V+E)$}
+{cpp}{source/Graph/TopoSort.cpp}
 
-\Algorithm{FLow With Demand}
-{}{}
-{cpp}{source/Graph/flow_with_demand.cpp}
-
-\Algorithm{General Max Matching}
-{}{}
-{cpp}{source/Graph/general_max_matching.cpp}
-
-\Algorithm{Max Flow}
-{}{}
+\Algorithm{Dinic Max Flow}{}{$O(V^2E)$}
 {cpp}{source/Graph/max_flow.cpp}
 
-\Algorithm{Max Matching}
-{}{}
-{cpp}{source/Graph/max_matching.cpp}
+\Algorithm{Push--Relabel Max Flow}{}{$O(V^2\sqrt E)$}
+{cpp}{source/Graph/PushRelabel.cpp}
 
-\Algorithm{Min Cost Flow}
-{}{}
+\Algorithm{Edmonds--Karp}{}{$O(VE^2)$}
+{cpp}{source/Graph/EdmondsKarp.cpp}
+
+\Algorithm{Minimum Cut}
+{Run max flow first; returns the source side.}{$O(V+E)$}
+{cpp}{source/Graph/MinCut.cpp}
+
+\Algorithm{Global Minimum Cut}{}{$O(V^3)$}
+{cpp}{source/Graph/GlobalMinCut.cpp}
+
+\Algorithm{Gomory--Hu Tree}{}{$O(V)$ max-flow computations}
+{cpp}{source/Graph/GomoryHu.cpp}
+
+\Algorithm{Min-Cost Max-Flow}{}{$O(FE\log V+VE)$}
 {cpp}{source/Graph/min_cost_flow.cpp}
 
-\Algorithm{Tarjan}
-{}{}
+\Algorithm{Flow With Lower Bounds}{}{$O(V^2E)$}
+{cpp}{source/Graph/flow_with_demand.cpp}
+
+\Algorithm{Hopcroft--Karp}{}{$O(E\sqrt V)$}
+{cpp}{source/Graph/max_matching.cpp}
+
+\Algorithm{DFS Bipartite Matching}{}{$O(VE)$}
+{cpp}{source/Graph/DFSMatching.cpp}
+
+\Algorithm{Bipartite Minimum Vertex Cover}{}{$O(VE)$}
+{cpp}{source/Graph/MinimumVertexCover.cpp}
+
+\Algorithm{Weighted Bipartite Matching}{}{$O(N^2M)$}
+{cpp}{source/Graph/WeightedMatching.cpp}
+
+\Algorithm{General Matching (Blossom)}{}{$O(V^3)$}
+{cpp}{source/Graph/general_max_matching.cpp}
+
+\Algorithm{Strongly Connected Components}{}{$O(V+E)$}
 {cpp}{source/Graph/tarjan.cpp}
 
-\Algorithm{Two Sat}
-{}{}
+\Algorithm{Block-Cut Tree}{}{$O(V+E)$}
+{cpp}{source/Graph/block_cut_tree.cpp}
+
+\Algorithm{Two Sat}{}{$O(V+E)$}
 {cpp}{source/Graph/two_sat.cpp}
+
+\Algorithm{Euler Walk}{}{$O(V+E)$}
+{cpp}{source/Graph/eulerian_path.cpp}
+
+\Algorithm{Edge Coloring}{}{$O(VE)$}
+{cpp}{source/Graph/EdgeColoring.cpp}
+
+\Algorithm{Enumerate Maximal Cliques}{}{$O(3^{V/3})$}
+{cpp}{source/Graph/MaximalCliques.cpp}
+
+\Algorithm{Maximum Clique / Independent Set}
+{Supports at most 200 vertices.}{Exponential, fast in practice}
+{cpp}{source/Graph/MaximumClique.cpp}
+
+\Algorithm{Binary Lifting}{}{$O(N\log N)$ build, $O(\log N)$ query}
+{cpp}{source/Graph/BinaryLifting.cpp}
+
+\Algorithm{Lowest Common Ancestor}{}{$O(N\log N)$ build, $O(\log N)$ query}
+{cpp}{source/Graph/LCA.cpp}
+
+\Algorithm{Virtual Tree}{}{$O(K\log K)$}
+{cpp}{source/Graph/CompressTree.cpp}
+
+\Algorithm{Heavy-Light Decomposition}{}{$O(\log N)$ intervals per path}
+{cpp}{source/Graph/HLD.cpp}
+
+\Algorithm{Link-Cut Tree}{}{Amortized $O(\log N)$}
+{cpp}{source/Graph/LinkCutTree.cpp}
+
+\Algorithm{Directed MST}{}{$O(E\log V)$}
+{cpp}{source/Graph/DirectedMST.cpp}
+
+\Algorithm{Dominator Tree}{}{$O((V+E)\log V)$}
+{cpp}{source/Graph/DominatorTree.cpp}
 
 \subsection{Flow Model}
 \input{source/Graph/FlowModel.tex}
 
+\subsection{Graph Theorems}
+\input{source/Graph/GraphTheory.tex}
 
 
 
@@ -222,6 +351,16 @@
 {}{}
 {cpp}{source/String/KMP.cpp}
 
+\Algorithm{Manacher}{}{$O(n)$}
+{cpp}{source/String/Manacher.cpp}
+
+\Algorithm{Minimum Rotation}{}{$O(n)$}
+{cpp}{source/String/MinRotation.cpp}
+
+\Algorithm{String Hashing}
+{Arithmetic modulo $2^{64}-1$.}{$O(n)$ build, $O(1)$ query}
+{cpp}{source/String/Hashing.cpp}
+
 \Algorithm{Palindrome Tree}
 {}{}
 {cpp}{source/String/Palindrome_tree.cpp}
@@ -234,6 +373,10 @@
 {}{}
 {cpp}{source/String/Suffix_Automaton.cpp}
 
+\Algorithm{Suffix Tree}
+{Append a unique sentinel to expose every suffix.}{$O(n\log |\Sigma|)$}
+{cpp}{source/String/SuffixTree.cpp}
+
 \Algorithm{Z Function}
 {}{}
 {cpp}{source/String/ZFunction.cpp}
@@ -242,11 +385,11 @@
 
 
 
-\section{Tree}
+% \section{Tree}
 
-\Algorithm{Tree Line}
-{}{}
-{cpp}{source/Tree/treeline.cpp}
+% \Algorithm{Tree Line}
+% {}{}
+% {cpp}{source/Tree/treeline.cpp}
 
 
 
@@ -254,6 +397,31 @@
 
 
 \section{Arithmetic}
+
+\subsection{Number Theory}
+\input{source/Arithmetic/NumberTheory.tex}
+
+\Algorithm{Modular Arithmetic}{}{$O(\log e)$ for power}
+{cpp}{source/Arithmetic/ModularArithmetic.cpp}
+
+\Algorithm{Fast Modulo}
+{Barrett reduction for a fixed runtime modulus.}{$O(1)$}
+{cpp}{source/Arithmetic/FastMod.cpp}
+
+\Algorithm{Discrete Logarithm}{}{$O(\sqrt m)$ expected}
+{cpp}{source/Arithmetic/DiscreteLog.cpp}
+
+\Algorithm{Sums Modulo}{}{$O(\log m)$}
+{cpp}{source/Arithmetic/ModSum.cpp}
+
+\Algorithm{Linear Sieve, Phi and Mobius}{}{$O(n)$}
+{cpp}{source/Arithmetic/LinearSieve.cpp}
+
+\Algorithm{Continued Fractions}{}{$O(\log N)$}
+{cpp}{source/Arithmetic/ContinuedFractions.cpp}
+
+\Algorithm{Fraction Binary Search}{}{$O(\log N)$ predicate calls}
+{cpp}{source/Arithmetic/FractionBinarySearch.cpp}
 
 \Algorithm{Big Num Long}
 {}{}
@@ -267,7 +435,7 @@
 {}{}
 {cpp}{source/Arithmetic/diophantine.cpp}
 
-\Algorithm{Dirchlet Convolution}
+\Algorithm{Dirichlet Convolution}
 {}{}
 {cpp}{source/Arithmetic/DirchletConv.cpp}
 
@@ -283,7 +451,12 @@
 {}{}
 {cpp}{source/Arithmetic/integer_gaussian.cpp}
 
-\Algorithm{Lagrange Interpol}
+\Algorithm{Solve Linear Binary}
+{Solves $Ax=b$ over $\mathbb F_2$; returns rank or $-1$ if inconsistent.}
+{$O(n^2m / w)$}
+{cpp}{source/Arithmetic/solve_linear_binary.cpp}
+
+\Algorithm{Lagrange Interpolation}
 {}{}
 {cpp}{source/Arithmetic/lagrange_interpol.cpp}
 
@@ -295,21 +468,19 @@
 {}{}
 {cpp}{source/Arithmetic/Pollard_Rho.cpp}
 
-\Algorithm{Pythagorean Triples}
-{}{}
-{cpp}{source/Arithmetic/Pythagorean_Triples.cpp}
+\input{source/Arithmetic/Pythagorean_Triples.tex}
 
-\Algorithm{Big Num Short}
-{}{}
-{cpp}{source/Arithmetic/short_big_num.cpp}
+% \Algorithm{Big Num Short}
+% {}{}
+% {cpp}{source/Arithmetic/short_big_num.cpp}
 
 \Algorithm{Sqrt Mod}
 {}{}
 {cpp}{source/Arithmetic/SqrtMod.cpp}
 
-\Algorithm{Super Eratosthene}
-{}{}
-{cpp}{source/Arithmetic/Super_Ultra_Eratosthene.cpp}
+% \Algorithm{Super Eratosthene}
+% {}{}
+% {cpp}{source/Arithmetic/Super_Ultra_Eratosthene.cpp}
 
 
 
@@ -324,7 +495,33 @@
 
 
 
-\section{Combinatorics}
+\section{Numerical}
+
+\Algorithm{Real Polynomial, Roots and Interpolation}{}{$O(n^2\log(1/\varepsilon))$}
+{cpp}{source/Combinatorics/PolynomialNumerical.cpp}
+
+\Algorithm{Golden Search and Hill Climbing}{}{}
+{cpp}{source/Combinatorics/Optimization.cpp}
+
+\Algorithm{Simpson Integration}{}{}
+{cpp}{source/Combinatorics/Integration.cpp}
+
+\Algorithm{Simplex}{}{$O(NM\cdot \text{pivots})$}
+{cpp}{source/Combinatorics/Simplex.cpp}
+
+\Algorithm{Determinant}
+{Floating point and arbitrary-modulus variants.}{$O(n^3)$}
+{cpp}{source/Combinatorics/Determinant.cpp}
+
+\Algorithm{Solve Linear 2}
+{Returns every uniquely determined variable; others are NaN.}{$O(nm\min(n,m))$}
+{cpp}{source/Combinatorics/SolveLinear2.cpp}
+
+\Algorithm{Matrix Inverse}{}{$O(n^3)$}
+{cpp}{source/Combinatorics/MatrixInverse.cpp}
+
+\Algorithm{Tridiagonal System}{}{$O(n)$}
+{cpp}{source/Combinatorics/Tridiagonal.cpp}
 
 \Algorithm{FFT (Integer)}
 {}{}
@@ -342,12 +539,17 @@
 {}{}
 {cpp}{source/Combinatorics/Modular.cpp}
 
+\Algorithm{Berlekamp--Massey + Linear Recurrence}
+{Finds a shortest recurrence, then evaluates its $0$-indexed $k$-th term.}
+{$O(N^2)$ / $O(L^2\log k)$}
+{cpp}{source/Combinatorics/BerlekampMassey.cpp}
+
 \Algorithm{FFT + Poly Utilities}
 {}{}
 {cpp}{source/Combinatorics/Poly.cpp}
 
 
-\Algorithm{Xor Convolution}
+\Algorithm{AND / OR / XOR Convolution}
 {}{}
 {cpp}{source/Combinatorics/xor_convolution.cpp}
 

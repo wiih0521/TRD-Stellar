@@ -1,71 +1,70 @@
-/*
-Usage: 
- - Dinic(n, s, t): initialize a graph of size n, with s and t being the source and sink nodes, respectively
- - add_edge(u, v, w): add an edge from u to v, with capacity w. 
- - max_flow(): compute maximum flow 
-*/
 struct Dinic {
-    struct Edge { int to, rev; ll cap, flow; };
-    int n, s, t;
-    vector<vector<Edge>> adj;
-    vector<int> level, ptr;
+    struct Edge {
+        int to, reverse;
+        ll capacity, original;
+        ll flow() const { return original - capacity; }
+    };
+    vector<vector<Edge>> graph;
+    vector<int> level, nextEdge;
 
-    Dinic(int n, int source, int sink) : n(n), s(source), t(sink), adj(n), level(n), ptr(n) {}
+    Dinic(int n) : graph(n), level(n), nextEdge(n) {}
 
-    void add_edge(int u, int v, ll cap) {
-        adj[u].push_back({v, (int)adj[v].size(), cap, 0});
-        adj[v].push_back({u, (int)adj[u].size() - 1, 0, 0});
+    void addEdge(int from, int to, ll capacity, ll reverseCapacity = 0) {
+        graph[from].push_back(
+            {to, (int)graph[to].size(), capacity, capacity});
+        graph[to].push_back(
+            {from, (int)graph[from].size() - 1,
+             reverseCapacity, reverseCapacity});
     }
 
-    bool bfs() {
+    bool bfs(int source, int sink) {
         fill(level.begin(), level.end(), -1);
-        level[s] = 0;
-        queue<int> q({s});
-        while (!q.empty()) {
-            int u = q.front(); q.pop();
-            for (auto &e : adj[u]) {
-                if (e.cap - e.flow > 0 && level[e.to] == -1) {
-                    level[e.to] = level[u] + 1;
-                    q.push(e.to);
+        queue<int> queue;
+        level[source] = 0;
+        queue.push(source);
+        while (!queue.empty()) {
+            int vertex = queue.front();
+            queue.pop();
+            for (const Edge& edge : graph[vertex])
+                if (edge.capacity > 0 && level[edge.to] == -1) {
+                    level[edge.to] = level[vertex] + 1;
+                    queue.push(edge.to);
                 }
-            }
         }
-        return level[t] != -1;
+        return level[sink] != -1;
     }
 
-    ll dfs(int u, ll flow) {
-        if (u == t || flow == 0) return flow;
-        for (; ptr[u] < (int)adj[u].size(); ++ptr[u]) {
-            Edge &e = adj[u][ptr[u]];
-            if (level[e.to] == level[u] + 1 && e.cap - e.flow > 0) {
-                ll pushed = dfs(e.to, min(flow, e.cap - e.flow));
-                if (pushed > 0) {
-                    e.flow += pushed;
-                    adj[e.to][e.rev].flow -= pushed;
-                    return pushed;
+    ll dfs(int vertex, int sink, ll pushed) {
+        if (vertex == sink || !pushed) return pushed;
+        for (int& i = nextEdge[vertex]; i < (int)graph[vertex].size(); ++i) {
+            Edge& edge = graph[vertex][i];
+            if (edge.capacity > 0 && level[edge.to] == level[vertex] + 1) {
+                ll amount = dfs(edge.to, sink, min(pushed, edge.capacity));
+                if (amount) {
+                    edge.capacity -= amount;
+                    graph[edge.to][edge.reverse].capacity += amount;
+                    return amount;
                 }
             }
         }
         return 0;
     }
 
-    void reset_flows() {
-        for (auto &u_edges : adj) {
-            for (auto &e : u_edges) {
-                e.flow = 0; // Reset flow to 0
-            }
-        }
-    }
-
-    ll max_flow() {
+    ll maxFlow(int source, int sink, ll limit = LLONG_MAX) {
         ll flow = 0;
-        while (bfs()) {
-            fill(ptr.begin(), ptr.end(), 0);
-            while (ll pushed = dfs(s, LLONG_MAX)) {
+        while (flow < limit && bfs(source, sink)) {
+            fill(nextEdge.begin(), nextEdge.end(), 0);
+            while (flow < limit) {
+                ll pushed = dfs(source, sink, limit - flow);
+                if (!pushed) break;
                 flow += pushed;
             }
         }
-        reset_flows();
         return flow;
+    }
+
+    void reset() {
+        for (auto& edges : graph)
+            for (Edge& edge : edges) edge.capacity = edge.original;
     }
 };

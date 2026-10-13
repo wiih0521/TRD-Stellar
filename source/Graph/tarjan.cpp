@@ -1,35 +1,37 @@
-/*
-Usage:
-- dfs(u, p): dfs, what the fuck
-- topo[u]: the strongly connected component that u belongs to, sorted topologically.
-*/
+// Tarjan SCC. component ids are in reverse topological order. O(V+E).
+struct SCC {
+    vector<vector<int>> graph;
+    vector<int> discovery, low, component, stack;
+    vector<bool> onStack;
+    int timer = 0, componentCount = 0;
 
-
-int n, m;
-vector<int> graph[N];
-int num[N], low[N], topo[N];
-deque<int> st;
-int dfs_cnt = 0, topo_cnt = 0;
-
-void dfs(int u, int p){
-    num[u] = low[u] = ++dfs_cnt;
-    st.push_back(u);
-    int cnt = 0;
-    for(int v: graph[u]){
-        if (v == p && cnt == 0){cnt++; continue;}
-        if (!num[v]){
-            dfs(v, u);
-            minimize(low[u], low[v]);
-        }
-        else minimize(low[u], num[v]);
+    SCC(const vector<vector<int>>& graph)
+        : graph(graph), discovery(graph.size(), -1), low(graph.size()),
+          component(graph.size(), -1), onStack(graph.size()) {
+        for (int vertex = 0; vertex < (int)graph.size(); ++vertex)
+            if (discovery[vertex] == -1) dfs(vertex);
     }
 
-    if (num[u] == low[u]){
-        topo_cnt++;
-        while(st.back() != u){
-            topo[st.back()] = topo_cnt;
-            st.pop_back();
+    void dfs(int vertex) {
+        discovery[vertex] = low[vertex] = timer++;
+        stack.push_back(vertex);
+        onStack[vertex] = true;
+        for (int to : graph[vertex]) {
+            if (discovery[to] == -1) {
+                dfs(to);
+                low[vertex] = min(low[vertex], low[to]);
+            } else if (onStack[to]) {
+                low[vertex] = min(low[vertex], discovery[to]);
+            }
         }
-        topo[u] = topo_cnt; st.pop_back();
+        if (low[vertex] != discovery[vertex]) return;
+        while (true) {
+            int top = stack.back();
+            stack.pop_back();
+            onStack[top] = false;
+            component[top] = componentCount;
+            if (top == vertex) break;
+        }
+        ++componentCount;
     }
-}
+};

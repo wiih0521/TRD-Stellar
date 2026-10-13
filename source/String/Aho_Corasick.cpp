@@ -1,47 +1,60 @@
-/*
-checked
-*/
+// Multiple pattern matching over ['a', 'z']. Empty patterns are unsupported.
+struct AhoCorasick {
+    struct Node {
+        array<int, 26> next;
+        int link = 0;
+        vector<int> out;
+        Node() { next.fill(-1); }
+    };
+    vector<Node> trie{1};
 
-int nx[N][26];
-int suf_link[N], par[N];
-int leaf[N];
-int num_node = 0;
-int exlink[N];
-
-
-int add(const string& s)
-{
-    int u = 0;
-    for (const char& c : s)
-    {
-        if (nx[u][c - 'a'] == -1) nx[u][c - 'a'] = ++num_node;
-        par[nx[u][c - 'a']] = u;
-        u = nx[u][c - 'a'];
+    int add(const string& s, int id) {
+        assert(!s.empty());
+        int v = 0;
+        for (char ch : s) {
+            int c = ch - 'a';
+            assert(0 <= c && c < 26);
+            if (trie[v].next[c] == -1) {
+                trie[v].next[c] = (int)trie.size();
+                trie.emplace_back();
+            }
+            v = trie[v].next[c];
+        }
+        trie[v].out.push_back(id);
+        return v;
     }
-    leaf[u] = 1;
-    return u;
-}
-void build()
-{
-    queue<int> q;
-    q.push(0);
-    while (sz(q))
-    {
-        int u = q.front(); q.pop();
-        int v = suf_link[u];
-        if (leaf[v]) exlink[u] = v;
-        else exlink[u] = exlink[v];
-        for (int i = 0; i < 26; ++i)
-        {
-            int x = nx[u][i];
-            if (nx[u][i] == -1)
-                nx[u][i] = u == 0 ? 0 : nx[v][i];
-            else
-            {
-                suf_link[x] = u == 0 ? 0 : nx[v][i];
-                q.push(x);
+
+    void build() {
+        queue<int> q;
+        for (int c = 0; c < 26; ++c) {
+            int u = trie[0].next[c];
+            if (u == -1) trie[0].next[c] = 0;
+            else q.push(u);
+        }
+        while (!q.empty()) {
+            int v = q.front(); q.pop();
+            int f = trie[v].link;
+            trie[v].out.insert(trie[v].out.end(), trie[f].out.begin(), trie[f].out.end());
+            for (int c = 0; c < 26; ++c) {
+                int u = trie[v].next[c];
+                if (u == -1) trie[v].next[c] = trie[f].next[c];
+                else {
+                    trie[u].link = trie[f].next[c];
+                    q.push(u);
+                }
             }
         }
-
     }
-}
+
+    vector<pair<int, int>> match(const string& text) const {
+        vector<pair<int, int>> ans;
+        int v = 0;
+        for (int i = 0; i < (int)text.size(); ++i) {
+            int c = text[i] - 'a';
+            assert(0 <= c && c < 26);
+            v = trie[v].next[c];
+            for (int id : trie[v].out) ans.push_back({i, id});
+        }
+        return ans;
+    }
+};

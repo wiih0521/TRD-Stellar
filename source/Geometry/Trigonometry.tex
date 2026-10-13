@@ -1,0 +1,37 @@
+\begingroup\small
+\textbf{Basics.} Angles are in radians; $180^\circ=\pi$. For $k\in\mathbb Z$,
+\begin{align*}
+ \sin^2x+\cos^2x&=1, & 1+\tan^2x&=\sec^2x,\\
+ \sin(-x)&=-\sin x, & \cos(-x)&=\cos x.
+\end{align*}
+\[
+ \sin(x+2k\pi)=\sin x,\quad \cos(x+2k\pi)=\cos x,\quad
+ \tan(x+k\pi)=\tan x.
+\]
+\textbf{Addition and multiple angles.}
+\begin{align*}
+ \sin(a\!\pm\!b)&=\sin a\cos b\pm\cos a\sin b,\\
+ \cos(a\!\pm\!b)&=\cos a\cos b\mp\sin a\sin b,\\
+ \tan(a\!\pm\!b)&=\frac{\tan a\pm\tan b}{1\mp\tan a\tan b},\\
+ \sin 2x&=2\sin x\cos x,\\
+ \cos 2x&=\cos^2x-\sin^2x=1-2\sin^2x=2\cos^2x-1,\\
+ \tan 2x&=\frac{2\tan x}{1-\tan^2x},\qquad
+ \sin^2\frac x2=\frac{1-\cos x}{2},\quad
+ \cos^2\frac x2=\frac{1+\cos x}{2}.
+\end{align*}
+\textbf{Products and sums.}
+\begin{align*}
+ 2\sin a\cos b&=\sin(a+b)+\sin(a-b),\\
+ 2\cos a\cos b&=\cos(a+b)+\cos(a-b),\\
+ 2\sin a\sin b&=\cos(a-b)-\cos(a+b),\\
+ \sin a+\sin b&=2\sin\frac{a+b}{2}\cos\frac{a-b}{2},\\
+ \cos a+\cos b&=2\cos\frac{a+b}{2}\cos\frac{a-b}{2}.
+\end{align*}
+\textbf{Triangle.} For sides $a,b,c$ opposite $A,B,C$ and area $K$,
+\begin{align*}
+ \frac a{\sin A}=\frac b{\sin B}=\frac c{\sin C}&=2R,\\
+ c^2&=a^2+b^2-2ab\cos C, & K&=\frac12ab\sin C.
+\end{align*}
+Use \texttt{atan2(y,x)} for the signed direction in $(-\pi,\pi]$; clamp
+floating values to $[-1,1]$ before \texttt{acos}/\texttt{asin}.
+\endgroup

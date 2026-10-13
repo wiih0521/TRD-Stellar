@@ -1,3 +1,5 @@
+template<class T> int sgn(T x) { return (x > 0) - (x < 0); }
+
 template<class T>
 struct Point {
     T x, y;
@@ -5,6 +7,7 @@ struct Point {
     
     bool operator<(Point p) const { return tie(x, y) < tie(p.x, p.y); }
     bool operator==(Point p) const { return tie(x, y) == tie(p.x, p.y); }
+    bool operator!=(Point p) const { return !(*this == p); }
     
     Point operator+(Point p) const { return Point(x + p.x, y + p.y); }
     Point operator-(Point p) const { return Point(x - p.x, y - p.y); }
@@ -20,7 +23,12 @@ struct Point {
     double dist() const { return sqrt((double)dist2()); }
     Point unit() const { return *this / dist(); }
     Point perp() const { return Point(-y, x); }
+    Point normal() const { return perp().unit(); }
     double angle() const { return atan2(y, x); }
+    Point rotate(double a) const {
+        return Point(x * cos(a) - y * sin(a),
+                     x * sin(a) + y * cos(a));
+    }
     
     friend istream& operator>>(istream& is, Point& p) { return is >> p.x >> p.y; }
     friend ostream& operator<<(ostream& os, const Point& p) { return os << p.x << " " << p.y; }

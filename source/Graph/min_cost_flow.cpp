@@ -1,57 +1,85 @@
-/*
-Usage: 
- - MCMF(n, s, t): initialize a graph of size n, with s and t being the source and sink nodes, respectively
- - add_edge(u, v, c, w): add an edge from u to v, with capacity c and cost w. 
- - minCostFlow(): compute {flow, min_cost} 
-*/
+struct MinCostMaxFlow {
+    struct Edge { int to, reverse; ll capacity, cost, flow; };
+    vector<vector<Edge>> graph;
 
-struct MCMF {
-    struct Edge { int v, cap, cost, rev; };
-    int N, s, t;
-    vector<vector<Edge>> adj;
-    vector<int> dist, parent, parentEdge, inQueue;
+    MinCostMaxFlow(int n) : graph(n) {}
 
-    MCMF(int n, int s, int t) : N(n), s(s), t(t), adj(n), dist(n), parent(n), parentEdge(n), inQueue(n) {}
-
-    void addEdge(int u, int v, int cap, int cost) {
-        adj[u].push_back({v, cap, cost, (int)adj[v].size()});
-        adj[v].push_back({u, 0, -cost, (int)adj[u].size() - 1});
+    void addEdge(int from, int to, ll capacity, ll cost) {
+        graph[from].push_back({to, (int)graph[to].size(), capacity, cost, 0});
+        graph[to].push_back(
+            {from, (int)graph[from].size() - 1, 0, -cost, 0});
     }
 
-    bool spfa(int s, int t) {
-        fill(dist.begin(), dist.end(), INT_MAX);
-        queue<int> q;
-        dist[s] = 0; q.push(s); inQueue[s] = 1;
-        while (!q.empty()) {
-            int u = q.front(); q.pop(); inQueue[u] = 0;
-            for (int i = 0; i < adj[u].size(); ++i) {
-                Edge &e = adj[u][i];
-                if (e.cap > 0 && dist[e.v] > dist[u] + e.cost) {
-                    dist[e.v] = dist[u] + e.cost;
-                    parent[e.v] = u; parentEdge[e.v] = i;
-                    if (!inQueue[e.v]) q.push(e.v), inQueue[e.v] = 1;
+    // Assumes no reachable negative-cost cycle with residual capacity.
+    // Returns as much flow as possible up to limit, and its minimum cost.
+    pair<ll, ll> minCostFlow(int source, int sink, ll limit = LLONG_MAX) {
+        int n = (int)graph.size();
+        const ll INF = (1LL << 62);
+        vector<ll> potential(n, INF);
+        potential[source] = 0;
+        for (int iteration = 0; iteration < n - 1; ++iteration) {
+            bool changed = false;
+            for (int vertex = 0; vertex < n; ++vertex)
+                if (potential[vertex] != INF)
+                    for (const Edge& edge : graph[vertex])
+                        if (edge.capacity > edge.flow
+                                && potential[edge.to] >
+                                   potential[vertex] + edge.cost) {
+                            potential[edge.to] = max(-INF,
+                                potential[vertex] + edge.cost);
+                            changed = true;
+                        }
+            if (!changed) break;
+        }
+        for (ll& value : potential) if (value == INF) value = 0;
+
+        ll totalFlow = 0, totalCost = 0;
+        vector<ll> distance(n);
+        vector<int> parentVertex(n), parentEdge(n);
+        while (totalFlow < limit) {
+            fill(distance.begin(), distance.end(), INF);
+            distance[source] = 0;
+            priority_queue<pair<ll, int>,
+                vector<pair<ll, int>>, greater<pair<ll, int>>> queue;
+            queue.push({0, source});
+            while (!queue.empty()) {
+                ll currentDistance = queue.top().first;
+                int vertex = queue.top().second;
+                queue.pop();
+                if (currentDistance != distance[vertex]) continue;
+                for (int i = 0; i < (int)graph[vertex].size(); ++i) {
+                    Edge& edge = graph[vertex][i];
+                    if (edge.flow == edge.capacity) continue;
+                    ll candidate = currentDistance + edge.cost
+                                 + potential[vertex] - potential[edge.to];
+                    if (candidate < distance[edge.to]) {
+                        distance[edge.to] = candidate;
+                        parentVertex[edge.to] = vertex;
+                        parentEdge[edge.to] = i;
+                        queue.push({candidate, edge.to});
+                    }
                 }
             }
-        }
-        return dist[t] != INT_MAX;
-    }
-
-    pair<int, int> minCostFlow(int k) {
-        int flow = 0, cost = 0;
-        while (flow < k && spfa(s, t)) {
-            int augFlow = k - flow;
-            for (int u = t; u != s; u = parent[u])
-                augFlow = min(augFlow, adj[parent[u]][parentEdge[u]].cap);
-
-            for (int u = t; u != s; u = parent[u]) {
-                Edge &e = adj[parent[u]][parentEdge[u]];
-                e.cap -= augFlow;
-                adj[u][e.rev].cap += augFlow;
-                cost += augFlow * e.cost;
+            if (distance[sink] == INF) break;
+            for (int vertex = 0; vertex < n; ++vertex)
+                if (distance[vertex] != INF) potential[vertex] += distance[vertex];
+            ll add = limit - totalFlow;
+            for (int vertex = sink; vertex != source;
+                    vertex = parentVertex[vertex]) {
+                int previous = parentVertex[vertex];
+                Edge& edge = graph[previous][parentEdge[vertex]];
+                add = min(add, edge.capacity - edge.flow);
             }
-
-            flow += augFlow;
+            for (int vertex = sink; vertex != source;
+                    vertex = parentVertex[vertex]) {
+                int previous = parentVertex[vertex];
+                Edge& edge = graph[previous][parentEdge[vertex]];
+                edge.flow += add;
+                graph[edge.to][edge.reverse].flow -= add;
+                totalCost += add * edge.cost;
+            }
+            totalFlow += add;
         }
-        return flow == k ? make_pair(flow, cost) : make_pair(-1, -1);
+        return {totalFlow, totalCost};
     }
 };

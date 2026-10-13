@@ -1,25 +1,38 @@
-ll sqrt(ll a, ll p) {
-	a %= p; if (a < 0) a += p;
-	if (a == 0) return 0;
-	if (modpow(a, (p - 1) / 2, p) != 1) return -1; // else no solution
-	if (p % 4 == 3) return modpow(a, (p + 1) / 4, p);
-	// a^(n+3)/8 or 2^(n+3)/8 * 2^(n-1)/4 works if p % 8 == 5
-	ll s = p - 1, n = 2;
-	int r = 0, m;
-	while (s % 2 == 0)
-		++r, s /= 2;
-	/// find a non-square mod p
-	while (modpow(n, (p - 1) / 2, p) != p - 1) ++n;
-	ll x = modpow(a, (s + 1) / 2, p);
-	ll b = modpow(a, s, p), g = modpow(n, s, p);
-	for (;; r = m) {
-		ll t = b;
-		for (m = 0; m < r && t != 1; ++m)
-			t = t * t % p;
-		if (m == 0) return x;
-		ll gs = modpow(g, 1LL << (r - m - 1), p);
-		g = gs * gs % p;
-		x = x * gs % p;
-		b = b * g % p;
-	}
+// Tonelli-Shanks: one x with x^2 == a (mod odd prime p), or -1.
+ll modSqrt(ll a, ll p) {
+    auto power = [&](ll base, ll exponent) {
+        ll result = 1;
+        while (exponent) {
+            if (exponent & 1) result = (__int128)result * base % p;
+            base = (__int128)base * base % p;
+            exponent >>= 1;
+        }
+        return result;
+    };
+    a = (a % p + p) % p;
+    if (a == 0 || p == 2) return a;
+    if (power(a, (p - 1) / 2) != 1) return -1;
+    if (p % 4 == 3) return power(a, (p + 1) / 4);
+    ll odd = p - 1;
+    int exponent = 0;
+    while (!(odd & 1)) odd >>= 1, ++exponent;
+    ll nonSquare = 2;
+    while (power(nonSquare, (p - 1) / 2) != p - 1) ++nonSquare;
+    ll x = power(a, (odd + 1) / 2);
+    ll value = power(a, odd);
+    ll generator = power(nonSquare, odd);
+    while (value != 1) {
+        ll current = value;
+        int index = 0;
+        while (current != 1) {
+            current = (__int128)current * current % p;
+            ++index;
+        }
+        ll correction = power(generator, 1LL << (exponent - index - 1));
+        x = (__int128)x * correction % p;
+        generator = (__int128)correction * correction % p;
+        value = (__int128)value * generator % p;
+        exponent = index;
+    }
+    return x;
 }

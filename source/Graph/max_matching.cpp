@@ -1,48 +1,54 @@
-/*
-Usage: 
- - Matching(n, s, t): initialize a graph of size n
- - add_edge(u, v): add an edge from u to v
- - max_matching(): return maximum matching 
-*/
+struct HopcroftKarp {
+    int leftSize, rightSize;
+    vector<vector<int>> graph;
+    vector<int> leftMatch, rightMatch, distance;
 
-struct Matching {
-    int n; vector<vector<int>> adj; vector<int> pairU, pairV, dist, color;
-    Matching(int n) : n(n), adj(n + 1), pairU(n + 1), pairV(n + 1), dist(n + 1), color(n + 1, -1) {}
+    HopcroftKarp(int leftSize, int rightSize)
+        : leftSize(leftSize), rightSize(rightSize), graph(leftSize),
+          leftMatch(leftSize, -1), rightMatch(rightSize, -1),
+          distance(leftSize) {}
 
-    void add_edge(int u, int v) { adj[u].push_back(v), adj[v].push_back(u); }
+    void addEdge(int left, int right) { graph[left].push_back(right); }
 
     bool bfs() {
-        queue<int> q;
-        for (int u = 1; u <= n; ++u)
-            if (!pairU[u] && color[u] == 0) dist[u] = 0, q.push(u);
-            else dist[u] = INT_MAX;
-        dist[0] = INT_MAX;
-        while (!q.empty()) {
-            int u = q.front(); q.pop();
-            for (int v : adj[u]) 
-                if (dist[pairV[v]] == INT_MAX)
-                    dist[pairV[v]] = dist[u] + 1, q.push(pairV[v]);
+        queue<int> queue;
+        fill(distance.begin(), distance.end(), -1);
+        for (int left = 0; left < leftSize; ++left)
+            if (leftMatch[left] == -1)
+                distance[left] = 0, queue.push(left);
+        bool found = false;
+        while (!queue.empty()) {
+            int left = queue.front();
+            queue.pop();
+            for (int right : graph[left]) {
+                int next = rightMatch[right];
+                if (next == -1) found = true;
+                else if (distance[next] == -1)
+                    distance[next] = distance[left] + 1, queue.push(next);
+            }
         }
-        return dist[0] != INT_MAX;
+        return found;
     }
 
-    bool dfs(int u) {
-        if (!u) return true;
-        for (int v : adj[u]) 
-            if (dist[pairV[v]] == dist[u] + 1 && dfs(pairV[v]))
-                return pairV[v] = u, pairU[u] = v, true;
-        dist[u] = INT_MAX;
+    bool dfs(int left) {
+        for (int right : graph[left]) {
+            int next = rightMatch[right];
+            if (next == -1
+                    || (distance[next] == distance[left] + 1 && dfs(next))) {
+                leftMatch[left] = right;
+                rightMatch[right] = left;
+                return true;
+            }
+        }
+        distance[left] = -1;
         return false;
     }
 
-    vector<pair<int, int>> max_matching() {
-        function<void(int)> color_graph = [&](int u) {
-            for (int v : adj[u]) if (color[v] == -1) color[v] = 1 - color[u], color_graph(v);
-        };
-        for (int u = 1; u <= n; ++u) if (color[u] == -1) color[u] = 0, color_graph(u);
-        while (bfs()) for (int u = 1; u <= n; ++u) if (!pairU[u] && color[u] == 0) dfs(u);
-        vector<pair<int, int>> res;
-        for (int u = 1; u <= n; ++u) if (pairU[u]) res.emplace_back(u, pairU[u]);
-        return res;
+    int maxMatching() {
+        int result = 0;
+        while (bfs())
+            for (int left = 0; left < leftSize; ++left)
+                if (leftMatch[left] == -1 && dfs(left)) ++result;
+        return result;
     }
 };

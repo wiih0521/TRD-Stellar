@@ -18,7 +18,7 @@ struct DominatorTree {
         rt[id] = mn[id] = sdom[id] = id, id++;
         for (int u : g[v]) {
             if (vis[u] == -1) dfs(u), pa[vis[u]] = vis[v];
-            rg[vis[u]].pb(vis[v]);
+            rg[vis[u]].push_back(vis[v]);
         }
     }
     void build(int s) {
@@ -26,14 +26,14 @@ struct DominatorTree {
         for (int i = id - 1; ~i; --i) {
             for (int u : rg[i])
                 sdom[i] = min(sdom[i], sdom[query(u, 0)]);
-            if (i) bucket[sdom[i]].pb(i);
+            if (i) bucket[sdom[i]].push_back(i);
             for (int u : bucket[i]) {
                 int p = query(u, 0);
                 dom[u] = sdom[p] == i ? i : p;
             }
             if (i) rt[i] = pa[i];
         }
-        fill(all(res), -1);
+        fill(res.begin(), res.end(), -1);
         for (int i = 1; i < id; ++i) {
             if (dom[i] != sdom[i]) dom[i] = dom[dom[i]];
         }
@@ -42,7 +42,7 @@ struct DominatorTree {
         res[s] = s;
         for (int i = 0; i < n; ++i) dom[i] = res[i];
     }
-    void add_edge(int u, int v) { g[u].pb(v); }
+    void addEdge(int u, int v) { g[u].push_back(v); }
     DominatorTree(int _n) : n(_n), id(0), g(n), rg(n),
         bucket(n), sdom(n), dom(n, -1), vis(n, -1),
         rev(n), pa(n), rt(n), mn(n), res(n) {
