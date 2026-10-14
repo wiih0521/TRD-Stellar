@@ -1,0 +1,60 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// Static 2D KD\PYGZhy{}tree for nearest\PYGZhy{}neighbor queries on integer points.}
+\PYG{k}{using}\PYG{+w}{ }\PYG{n}{KDValue}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kt}{long}\PYG{+w}{ }\PYG{k+kt}{long}\PYG{p}{;}
+\PYG{k}{using}\PYG{+w}{ }\PYG{n}{KDPoint}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Point}\PYG{o}{\PYGZlt{}}\PYG{n}{KDValue}\PYG{o}{\PYGZgt{}}\PYG{p}{;}
+
+\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{KDNode}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{KDPoint}\PYG{+w}{ }\PYG{n}{point}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{KDValue}\PYG{+w}{ }\PYG{n}{x0}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{LLONG\PYGZus{}MAX}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{x1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{LLONG\PYGZus{}MIN}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{KDValue}\PYG{+w}{ }\PYG{n}{y0}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{LLONG\PYGZus{}MAX}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{y1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{LLONG\PYGZus{}MIN}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{unique\PYGZus{}ptr}\PYG{o}{\PYGZlt{}}\PYG{n}{KDNode}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{first}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{second}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{k}{explicit}\PYG{+w}{ }\PYG{n}{KDNode}\PYG{p}{(}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{KDPoint}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{point}\PYG{p}{(}\PYG{n}{points}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{])}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{KDPoint}\PYG{+w}{ }\PYG{n}{p}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{x0}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{min}\PYG{p}{(}\PYG{n}{x0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{.}\PYG{n}{x}\PYG{p}{);}\PYG{+w}{ }\PYG{n}{x1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{max}\PYG{p}{(}\PYG{n}{x1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{.}\PYG{n}{x}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n}{y0}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{min}\PYG{p}{(}\PYG{n}{y0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{.}\PYG{n}{y}\PYG{p}{);}\PYG{+w}{ }\PYG{n}{y1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{max}\PYG{p}{(}\PYG{n}{y1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{.}\PYG{n}{y}\PYG{p}{);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{points}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kt}{bool}\PYG{+w}{ }\PYG{n}{splitX}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{x1}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{x0}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{n}{y1}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{y0}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{sort}\PYG{p}{(}\PYG{n}{points}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{.}\PYG{n}{end}\PYG{p}{(),}\PYG{+w}{ }\PYG{p}{[}\PYG{o}{\PYGZam{}}\PYG{p}{](}\PYG{n}{KDPoint}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{KDPoint}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{splitX}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{n}{tie}\PYG{p}{(}\PYG{n}{a}\PYG{p}{.}\PYG{n}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{.}\PYG{n}{y}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{tie}\PYG{p}{(}\PYG{n}{b}\PYG{p}{.}\PYG{n}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{.}\PYG{n}{y}\PYG{p}{)}
+\PYG{+w}{                          }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{tie}\PYG{p}{(}\PYG{n}{a}\PYG{p}{.}\PYG{n}{y}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{tie}\PYG{p}{(}\PYG{n}{b}\PYG{p}{.}\PYG{n}{y}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{.}\PYG{n}{x}\PYG{p}{);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{        }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{half}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{)}\PYG{n}{points}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{first}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{make\PYGZus{}unique}\PYG{o}{\PYGZlt{}}\PYG{n}{KDNode}\PYG{o}{\PYGZgt{}}\PYG{p}{(}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{KDPoint}\PYG{o}{\PYGZgt{}}\PYG{p}{(}\PYG{n}{points}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{half}\PYG{p}{));}
+\PYG{+w}{        }\PYG{n}{second}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{make\PYGZus{}unique}\PYG{o}{\PYGZlt{}}\PYG{n}{KDNode}\PYG{o}{\PYGZgt{}}\PYG{p}{(}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{KDPoint}\PYG{o}{\PYGZgt{}}\PYG{p}{(}\PYG{n}{points}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{half}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{.}\PYG{n}{end}\PYG{p}{()));}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n}{KDValue}\PYG{+w}{ }\PYG{n}{boxDistance}\PYG{p}{(}\PYG{n}{KDPoint}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{const}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{KDValue}\PYG{+w}{ }\PYG{n}{x}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{clamp}\PYG{p}{(}\PYG{n}{p}\PYG{p}{.}\PYG{n}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{x0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{x1}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{y}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{clamp}\PYG{p}{(}\PYG{n}{p}\PYG{p}{.}\PYG{n}{y}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{y0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{y1}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{KDPoint}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{y}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{).}\PYG{n}{dist2}\PYG{p}{();}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+
+\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{KDTree}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{unique\PYGZus{}ptr}\PYG{o}{\PYGZlt{}}\PYG{n}{KDNode}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{root}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{explicit}\PYG{+w}{ }\PYG{n}{KDTree}\PYG{p}{(}\PYG{k}{const}\PYG{+w}{ }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{KDPoint}\PYG{o}{\PYGZgt{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{assert}\PYG{p}{(}\PYG{o}{!}\PYG{n}{points}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{());}
+\PYG{+w}{        }\PYG{n}{root}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{make\PYGZus{}unique}\PYG{o}{\PYGZlt{}}\PYG{n}{KDNode}\PYG{o}{\PYGZgt{}}\PYG{p}{(}\PYG{n}{points}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{n}{KDValue}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{KDPoint}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{search}\PYG{p}{(}\PYG{k}{const}\PYG{+w}{ }\PYG{n}{KDNode}\PYG{o}{*}\PYG{+w}{ }\PYG{n}{node}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{KDPoint}\PYG{+w}{ }\PYG{n}{query}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{const}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n}{node}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{first}\PYG{p}{)}
+\PYG{+w}{            }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{\PYGZob{}(}\PYG{n}{query}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{node}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{point}\PYG{p}{).}\PYG{n}{dist2}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{node}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{point}\PYG{p}{\PYGZcb{};}
+\PYG{+w}{        }\PYG{k}{const}\PYG{+w}{ }\PYG{n}{KDNode}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{first}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{node}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{first}\PYG{p}{.}\PYG{n}{get}\PYG{p}{(),}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{second}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{node}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{second}\PYG{p}{.}\PYG{n}{get}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{KDValue}\PYG{+w}{ }\PYG{n}{firstBound}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{first}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{boxDistance}\PYG{p}{(}\PYG{n}{query}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{KDValue}\PYG{+w}{ }\PYG{n}{secondBound}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{second}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{boxDistance}\PYG{p}{(}\PYG{n}{query}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{firstBound}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{secondBound}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{swap}\PYG{p}{(}\PYG{n}{firstBound}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{secondBound}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n}{swap}\PYG{p}{(}\PYG{n}{first}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{second}\PYG{p}{);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{k}{auto}\PYG{+w}{ }\PYG{n}{best}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{search}\PYG{p}{(}\PYG{n}{first}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{query}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{secondBound}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{best}\PYG{p}{.}\PYG{n}{first}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{best}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{min}\PYG{p}{(}\PYG{n}{best}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{search}\PYG{p}{(}\PYG{n}{second}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{query}\PYG{p}{));}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{best}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{n}{KDValue}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{KDPoint}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{nearest}\PYG{p}{(}\PYG{n}{KDPoint}\PYG{+w}{ }\PYG{n}{query}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{const}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{search}\PYG{p}{(}\PYG{n}{root}\PYG{p}{.}\PYG{n}{get}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{query}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{MintedVerbatim}

@@ -1,0 +1,12 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// Barrett reduction for a fixed runtime modulus b. reduce(a) is in [0, 2b).}
+\PYG{c+c1}{// Use reduce(a) \PYGZpc{} b only when a canonical remainder is required.}
+\PYG{k}{using}\PYG{+w}{ }\PYG{n}{ull}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kt}{unsigned}\PYG{+w}{ }\PYG{k+kt}{long}\PYG{+w}{ }\PYG{k+kt}{long}\PYG{p}{;}
+\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{FastMod}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{ull}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{m}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{explicit}\PYG{+w}{ }\PYG{n}{FastMod}\PYG{p}{(}\PYG{n}{ull}\PYG{+w}{ }\PYG{n}{mod}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{(}\PYG{n}{mod}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{m}\PYG{p}{(}\PYG{n}{mod}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{n}{ULLONG\PYGZus{}MAX}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n}{mod}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{n}{assert}\PYG{p}{(}\PYG{n}{mod}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{);}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n}{ull}\PYG{+w}{ }\PYG{n}{reduce}\PYG{p}{(}\PYG{n}{ull}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{const}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{a}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{ull}\PYG{p}{)(((}\PYG{n}{\PYGZus{}\PYGZus{}uint128\PYGZus{}t}\PYG{p}{)}\PYG{n}{m}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZgt{}\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mi}{64}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{MintedVerbatim}

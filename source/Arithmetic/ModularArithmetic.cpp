@@ -1,21 +1,3 @@
-// Safe for 0 <= a,b < mod < 2^64 (requires GCC/Clang __int128).
-using u64 = uint64_t;
-using u128 = __uint128_t;
-
-u64 modMul64(u64 a, u64 b, u64 mod) {
-    return (u128)a * b % mod;
-}
-
-u64 modPow64(u64 a, u64 e, u64 mod) {
-    u64 result = 1 % mod;
-    while (e) {
-        if (e & 1) result = modMul64(result, a, mod);
-        a = modMul64(a, a, mod);
-        e >>= 1;
-    }
-    return result;
-}
-
 // Returns gcd(a,b), and x,y such that ax+by=gcd(a,b).
 ll extGcd(ll a, ll b, ll& x, ll& y) {
     if (!b) {

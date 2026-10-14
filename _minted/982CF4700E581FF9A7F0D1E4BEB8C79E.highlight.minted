@@ -1,0 +1,11 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// Twice the signed area: positive for CCW, negative for CW.}
+\PYG{k}{template}\PYG{o}{\PYGZlt{}}\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{T}\PYG{o}{\PYGZgt{}}
+\PYG{n}{T}\PYG{+w}{ }\PYG{n}{polygonArea2}\PYG{p}{(}\PYG{k}{const}\PYG{+w}{ }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{Point}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{o}{\PYGZgt{}\PYGZgt{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{polygon}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{polygon}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{())}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{T}\PYG{+w}{ }\PYG{n}{area}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{polygon}\PYG{p}{.}\PYG{n}{back}\PYG{p}{().}\PYG{n}{cross}\PYG{p}{(}\PYG{n}{polygon}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]);}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{)}\PYG{n}{polygon}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();}\PYG{+w}{ }\PYG{o}{++}\PYG{n}{i}\PYG{p}{)}
+\PYG{+w}{        }\PYG{n}{area}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{n}{polygon}\PYG{p}{[}\PYG{n}{i}\PYG{p}{].}\PYG{n}{cross}\PYG{p}{(}\PYG{n}{polygon}\PYG{p}{[}\PYG{n}{i}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{]);}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{area}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

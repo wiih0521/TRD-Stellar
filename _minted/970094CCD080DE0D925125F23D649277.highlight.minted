@@ -1,0 +1,51 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// Recovers prefix sum of f from prefix sums of g and f*g modulo a prime.}
+\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{DirichletSummatory}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{using}\PYG{+w}{ }\PYG{n}{Function}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{ll}\PYG{p}{(}\PYG{o}{*}\PYG{p}{)(}\PYG{n}{ll}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{limit}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{inverse}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{mod}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{Function}\PYG{+w}{ }\PYG{n}{prefixF}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{prefixG}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{prefixConvolution}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{unordered\PYGZus{}map}\PYG{o}{\PYGZlt{}}\PYG{n}{ll}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ll}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{memo}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{DirichletSummatory}\PYG{p}{(}\PYG{n}{Function}\PYG{+w}{ }\PYG{n}{prefixF}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Function}\PYG{+w}{ }\PYG{n}{prefixG}\PYG{p}{,}
+\PYG{+w}{            }\PYG{n}{Function}\PYG{+w}{ }\PYG{n}{prefixConvolution}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{mod}\PYG{p}{)}
+\PYG{+w}{        }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{mod}\PYG{p}{(}\PYG{n}{mod}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{prefixF}\PYG{p}{(}\PYG{n}{prefixF}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{prefixG}\PYG{p}{(}\PYG{n}{prefixG}\PYG{p}{),}
+\PYG{+w}{          }\PYG{n}{prefixConvolution}\PYG{p}{(}\PYG{n}{prefixConvolution}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{power}\PYG{p}{(}\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{base}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{exponent}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{const}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{result}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{exponent}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{exponent}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{result}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{\PYGZus{}\PYGZus{}int128}\PYG{p}{)}\PYG{n}{result}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{base}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n}{mod}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n}{base}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{\PYGZus{}\PYGZus{}int128}\PYG{p}{)}\PYG{n}{base}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{base}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n}{mod}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n}{exponent}\PYG{+w}{ }\PYG{o}{\PYGZgt{}\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{result}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{calculate}\PYG{p}{(}\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{x}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{x}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{n}{limit}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{prefixF}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n}{mod}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{mod}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n}{mod}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{auto}\PYG{+w}{ }\PYG{n}{found}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{memo}\PYG{p}{.}\PYG{n}{find}\PYG{p}{(}\PYG{n}{x}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{found}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{n}{memo}\PYG{p}{.}\PYG{n}{end}\PYG{p}{())}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{found}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{second}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{subtracted}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{left}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{right}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{left}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{n}{x}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{left}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{right}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{right}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{x}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{x}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n}{left}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{sumG}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{prefixG}\PYG{p}{(}\PYG{n}{right}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{prefixG}\PYG{p}{(}\PYG{n}{left}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{))}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n}{mod}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{sumG}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{sumG}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{n}{mod}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n}{subtracted}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{subtracted}
+\PYG{+w}{                }\PYG{o}{+}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{\PYGZus{}\PYGZus{}int128}\PYG{p}{)}\PYG{n}{sumG}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{calculate}\PYG{p}{(}\PYG{n}{x}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n}{left}\PYG{p}{))}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n}{mod}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{answer}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{prefixConvolution}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{subtracted}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n}{mod}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{answer}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{answer}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{n}{mod}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{memo}\PYG{p}{[}\PYG{n}{x}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{\PYGZus{}\PYGZus{}int128}\PYG{p}{)}\PYG{n}{answer}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{inverse}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n}{mod}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// prefixF(x) must be directly available for x \PYGZlt{}= directLimit.}
+\PYG{+w}{    }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{solve}\PYG{p}{(}\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{directLimit}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{limit}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{directLimit}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{memo}\PYG{p}{.}\PYG{n}{clear}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{first}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{prefixG}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n}{mod}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{mod}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n}{mod}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{assert}\PYG{p}{(}\PYG{n}{first}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{inverse}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{power}\PYG{p}{(}\PYG{n}{first}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{mod}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{calculate}\PYG{p}{(}\PYG{n}{n}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{MintedVerbatim}

@@ -1,0 +1,26 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// Strict convex hull in CCW order; removes collinear points on edges.}
+\PYG{c+c1}{// O(n log n). Duplicate input points are allowed.}
+\PYG{k}{using}\PYG{+w}{ }\PYG{n}{P}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Point}\PYG{o}{\PYGZlt{}}\PYG{n}{ll}\PYG{o}{\PYGZgt{}}\PYG{p}{;}
+\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{P}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{convexHull}\PYG{p}{(}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{P}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{points}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{sort}\PYG{p}{(}\PYG{n}{points}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{.}\PYG{n}{end}\PYG{p}{());}
+\PYG{+w}{    }\PYG{n}{points}\PYG{p}{.}\PYG{n}{erase}\PYG{p}{(}\PYG{n}{unique}\PYG{p}{(}\PYG{n}{points}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{.}\PYG{n}{end}\PYG{p}{()),}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{.}\PYG{n}{end}\PYG{p}{());}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{points}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{P}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{hull}\PYG{p}{(}\PYG{n}{points}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{start}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{top}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{pass}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{pass}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{;}\PYG{+w}{ }\PYG{o}{++}\PYG{n}{pass}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{P}\PYG{+w}{ }\PYG{n}{p}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{top}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{n}{start}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}
+\PYG{+w}{                   }\PYG{n}{hull}\PYG{p}{[}\PYG{n}{top}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{].}\PYG{n}{cross}\PYG{p}{(}\PYG{n}{hull}\PYG{p}{[}\PYG{n}{top}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{+w}{                }\PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{n}{top}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n}{hull}\PYG{p}{[}\PYG{n}{top}\PYG{o}{++}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{n}{start}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{n}{top}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{reverse}\PYG{p}{(}\PYG{n}{points}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{.}\PYG{n}{end}\PYG{p}{());}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n}{hull}\PYG{p}{.}\PYG{n}{resize}\PYG{p}{(}\PYG{n}{top}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{hull}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

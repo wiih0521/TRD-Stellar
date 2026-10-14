@@ -1,0 +1,21 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k}{using}\PYG{+w}{ }\PYG{n}{GomoryHuEdge}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{array}\PYG{o}{\PYGZlt{}}\PYG{n}{ll}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{o}{\PYGZgt{}}\PYG{p}{;}\PYG{+w}{ }\PYG{c+c1}{// \PYGZob{}u,v,capacity\PYGZcb{}}
+
+\PYG{c+c1}{// Requires PushRelabel. Undirected non\PYGZhy{}negative capacities. O(V) max\PYGZhy{}flows.}
+\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{GomoryHuEdge}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{gomoryHu}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{const}\PYG{+w}{ }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{GomoryHuEdge}\PYG{o}{\PYGZgt{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{edges}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{GomoryHuEdge}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{tree}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{parent}\PYG{p}{(}\PYG{n}{n}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{vertex}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{vertex}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{;}\PYG{+w}{ }\PYG{o}{++}\PYG{n}{vertex}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{PushRelabel}\PYG{+w}{ }\PYG{n+nf}{flow}\PYG{p}{(}\PYG{n}{n}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{auto}\PYG{+w}{ }\PYG{n}{edge}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{edges}\PYG{p}{)}
+\PYG{+w}{            }\PYG{n}{flow}\PYG{p}{.}\PYG{n}{addEdge}\PYG{p}{((}\PYG{k+kt}{int}\PYG{p}{)}\PYG{n}{edge}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{],}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{)}\PYG{n}{edge}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{edge}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{edge}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]);}
+\PYG{+w}{        }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{cut}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{flow}\PYG{p}{.}\PYG{n}{maxFlow}\PYG{p}{(}\PYG{n}{vertex}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{parent}\PYG{p}{[}\PYG{n}{vertex}\PYG{p}{]);}
+\PYG{+w}{        }\PYG{n}{tree}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(\PYGZob{}}\PYG{n}{vertex}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{parent}\PYG{p}{[}\PYG{n}{vertex}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{cut}\PYG{p}{\PYGZcb{});}
+\PYG{+w}{        }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{next}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{vertex}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{next}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{;}\PYG{+w}{ }\PYG{o}{++}\PYG{n}{next}\PYG{p}{)}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{parent}\PYG{p}{[}\PYG{n}{next}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{parent}\PYG{p}{[}\PYG{n}{vertex}\PYG{p}{]}
+\PYG{+w}{                    }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{flow}\PYG{p}{.}\PYG{n}{sourceSideOfMinCut}\PYG{p}{(}\PYG{n}{next}\PYG{p}{))}
+\PYG{+w}{                }\PYG{n}{parent}\PYG{p}{[}\PYG{n}{next}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{vertex}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{tree}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

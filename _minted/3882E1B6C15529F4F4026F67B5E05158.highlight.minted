@@ -1,0 +1,33 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k}{using}\PYG{+w}{ }\PYG{n}{CliqueMask}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{bitset}\PYG{o}{\PYGZlt{}}\PYG{l+m+mi}{128}\PYG{o}{\PYGZgt{}}\PYG{p}{;}
+
+\PYG{k}{template}\PYG{o}{\PYGZlt{}}\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{F}\PYG{o}{\PYGZgt{}}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n}{maximalCliqueDfs}\PYG{p}{(}\PYG{k}{const}\PYG{+w}{ }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{CliqueMask}\PYG{o}{\PYGZgt{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{adjacency}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{F}\PYG{o}{\PYGZam{}}\PYG{+w}{ }\PYG{n}{callback}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n}{CliqueMask}\PYG{+w}{ }\PYG{n}{candidates}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{CliqueMask}\PYG{+w}{ }\PYG{n}{excluded}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{CliqueMask}\PYG{+w}{ }\PYG{n}{current}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n}{candidates}\PYG{p}{.}\PYG{n}{any}\PYG{p}{())}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n}{excluded}\PYG{p}{.}\PYG{n}{any}\PYG{p}{())}\PYG{+w}{ }\PYG{n}{callback}\PYG{p}{(}\PYG{n}{current}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{return}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{pivot}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{)(}\PYG{n}{candidates}\PYG{+w}{ }\PYG{o}{|}\PYG{+w}{ }\PYG{n}{excluded}\PYG{p}{).}\PYG{n}{\PYGZus{}Find\PYGZus{}first}\PYG{p}{();}
+\PYG{+w}{    }\PYG{n}{CliqueMask}\PYG{+w}{ }\PYG{n}{branch}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{candidates}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{+w}{ }\PYG{o}{\PYGZti{}}\PYG{n}{adjacency}\PYG{p}{[}\PYG{n}{pivot}\PYG{p}{];}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{vertex}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{vertex}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{)}\PYG{n}{adjacency}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();}\PYG{+w}{ }\PYG{o}{++}\PYG{n}{vertex}\PYG{p}{)}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{branch}\PYG{p}{[}\PYG{n}{vertex}\PYG{p}{])}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{current}\PYG{p}{[}\PYG{n}{vertex}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{true}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n}{maximalCliqueDfs}\PYG{p}{(}\PYG{n}{adjacency}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{callback}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n}{candidates}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{+w}{ }\PYG{n}{adjacency}\PYG{p}{[}\PYG{n}{vertex}\PYG{p}{],}
+\PYG{+w}{                }\PYG{n}{excluded}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{+w}{ }\PYG{n}{adjacency}\PYG{p}{[}\PYG{n}{vertex}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{current}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n}{current}\PYG{p}{[}\PYG{n}{vertex}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{false}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n}{candidates}\PYG{p}{[}\PYG{n}{vertex}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{false}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n}{excluded}\PYG{p}{[}\PYG{n}{vertex}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{true}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{// Calls callback once for every maximal clique. n \PYGZlt{}= 128, O(3\PYGZca{}(n/3)).}
+\PYG{k}{template}\PYG{o}{\PYGZlt{}}\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{F}\PYG{o}{\PYGZgt{}}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n}{enumerateMaximalCliques}\PYG{p}{(}\PYG{k}{const}\PYG{+w}{ }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{CliqueMask}\PYG{o}{\PYGZgt{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{adjacency}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{F}\PYG{+w}{ }\PYG{n}{callback}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{assert}\PYG{p}{(}\PYG{n}{adjacency}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mi}{128}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{CliqueMask}\PYG{+w}{ }\PYG{n}{candidates}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{)}\PYG{n}{adjacency}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();}\PYG{+w}{ }\PYG{o}{++}\PYG{n}{i}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{candidates}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{true}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{maximalCliqueDfs}\PYG{p}{(}\PYG{n}{adjacency}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{callback}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{candidates}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{},}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{});}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

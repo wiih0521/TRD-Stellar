@@ -1,0 +1,9 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// Distance from p to segment [s,e]. Intended for Point\PYGZlt{}double\PYGZgt{}.}
+\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n+nf}{segDist}\PYG{p}{(}\PYG{n}{Point}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{double}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Point}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{double}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{e}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Point}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{double}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{s}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{e}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{p}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{).}\PYG{n}{dist}\PYG{p}{();}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{d}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{e}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{).}\PYG{n}{dist2}\PYG{p}{();}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{t}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{min}\PYG{p}{(}\PYG{n}{d}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{max}\PYG{p}{(}\PYG{l+m+mf}{0.0}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{p}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{).}\PYG{n}{dot}\PYG{p}{(}\PYG{n}{e}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{)));}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{((}\PYG{n}{p}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{d}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{e}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{t}\PYG{p}{).}\PYG{n}{dist}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

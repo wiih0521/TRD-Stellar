@@ -1,0 +1,26 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// Closest pair of integer points in O(n log n). Requires at least 2 points.}
+\PYG{k}{using}\PYG{+w}{ }\PYG{n}{P}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Point}\PYG{o}{\PYGZlt{}}\PYG{n}{ll}\PYG{o}{\PYGZgt{}}\PYG{p}{;}
+\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{n}{P}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{P}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{closestPair}\PYG{p}{(}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{P}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{assert}\PYG{p}{(}\PYG{n}{points}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{set}\PYG{o}{\PYGZlt{}}\PYG{n}{P}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{active}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{sort}\PYG{p}{(}\PYG{n}{points}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{.}\PYG{n}{end}\PYG{p}{(),}\PYG{+w}{ }\PYG{p}{[](}\PYG{n}{P}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{P}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{tie}\PYG{p}{(}\PYG{n}{a}\PYG{p}{.}\PYG{n}{y}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{tie}\PYG{p}{(}\PYG{n}{b}\PYG{p}{.}\PYG{n}{y}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{.}\PYG{n}{x}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{});}
+\PYG{+w}{    }\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{n}{ll}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{n}{P}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{P}\PYG{o}{\PYGZgt{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{best}\PYG{p}{\PYGZob{}}\PYG{n}{LLONG\PYGZus{}MAX}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n}{P}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{P}\PYG{p}{()\PYGZcb{}\PYGZcb{};}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{left}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{P}\PYG{+w}{ }\PYG{n}{point}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{width}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{ll}\PYG{p}{)}\PYG{n}{sqrt}\PYG{p}{((}\PYG{k+kt}{long}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{p}{)}\PYG{n}{best}\PYG{p}{.}\PYG{n}{first}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{P}\PYG{+w}{ }\PYG{n+nf}{delta}\PYG{p}{(}\PYG{n}{width}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{left}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{)}\PYG{n}{points}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}
+\PYG{+w}{               }\PYG{n}{points}\PYG{p}{[}\PYG{n}{left}\PYG{p}{].}\PYG{n}{y}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{n}{point}\PYG{p}{.}\PYG{n}{y}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{width}\PYG{p}{)}
+\PYG{+w}{            }\PYG{n}{active}\PYG{p}{.}\PYG{n}{erase}\PYG{p}{(}\PYG{n}{points}\PYG{p}{[}\PYG{n}{left}\PYG{o}{++}\PYG{p}{]);}
+\PYG{+w}{        }\PYG{k}{auto}\PYG{+w}{ }\PYG{n}{low}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{active}\PYG{p}{.}\PYG{n}{lower\PYGZus{}bound}\PYG{p}{(}\PYG{n}{point}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{delta}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{auto}\PYG{+w}{ }\PYG{n}{high}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{active}\PYG{p}{.}\PYG{n}{upper\PYGZus{}bound}\PYG{p}{(}\PYG{n}{point}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{delta}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(;}\PYG{+w}{ }\PYG{n}{low}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{n}{high}\PYG{p}{;}\PYG{+w}{ }\PYG{o}{++}\PYG{n}{low}\PYG{p}{)}
+\PYG{+w}{            }\PYG{n}{best}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{min}\PYG{p}{(}\PYG{n}{best}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{\PYGZob{}(}\PYG{o}{*}\PYG{n}{low}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{point}\PYG{p}{).}\PYG{n}{dist2}\PYG{p}{(),}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{o}{*}\PYG{n}{low}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{point}\PYG{p}{\PYGZcb{}\PYGZcb{});}
+\PYG{+w}{        }\PYG{n}{active}\PYG{p}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{n}{point}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{best}\PYG{p}{.}\PYG{n}{second}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

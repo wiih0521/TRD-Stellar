@@ -1,0 +1,32 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// Bipartite minimum vertex cover. Returned ids are L: [0,n), R: [n,n+m).}
+\PYG{c+c1}{// Requires dfsMatching() above. O(VE).}
+\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{minimumVertexCover}\PYG{p}{(}\PYG{k}{const}\PYG{+w}{ }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZgt{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{graph}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{rightSize}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{leftSize}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{)}\PYG{n}{graph}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();}
+\PYG{+w}{    }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{rightToLeft}\PYG{p}{(}\PYG{n}{rightSize}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}1}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{matchingSize}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{dfsMatching}\PYG{p}{(}\PYG{n}{graph}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{rightToLeft}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{reachableLeft}\PYG{p}{(}\PYG{n}{leftSize}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nb}{true}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{reachableRight}\PYG{p}{(}\PYG{n}{rightSize}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{left}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{rightToLeft}\PYG{p}{)}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{left}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}1}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{reachableLeft}\PYG{p}{[}\PYG{n}{left}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{false}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{stack}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{left}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{left}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{leftSize}\PYG{p}{;}\PYG{+w}{ }\PYG{o}{++}\PYG{n}{left}\PYG{p}{)}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{reachableLeft}\PYG{p}{[}\PYG{n}{left}\PYG{p}{])}\PYG{+w}{ }\PYG{n}{stack}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{left}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n}{stack}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{())}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{left}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{stack}\PYG{p}{.}\PYG{n}{back}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{stack}\PYG{p}{.}\PYG{n}{pop\PYGZus{}back}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{reachableLeft}\PYG{p}{[}\PYG{n}{left}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{true}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{right}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{graph}\PYG{p}{[}\PYG{n}{left}\PYG{p}{])}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n}{reachableRight}\PYG{p}{[}\PYG{n}{right}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{rightToLeft}\PYG{p}{[}\PYG{n}{right}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}1}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n}{reachableRight}\PYG{p}{[}\PYG{n}{right}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{true}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n}{stack}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{rightToLeft}\PYG{p}{[}\PYG{n}{right}\PYG{p}{]);}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{cover}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{left}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{left}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{leftSize}\PYG{p}{;}\PYG{+w}{ }\PYG{o}{++}\PYG{n}{left}\PYG{p}{)}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n}{reachableLeft}\PYG{p}{[}\PYG{n}{left}\PYG{p}{])}\PYG{+w}{ }\PYG{n}{cover}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{left}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{right}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{right}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{rightSize}\PYG{p}{;}\PYG{+w}{ }\PYG{o}{++}\PYG{n}{right}\PYG{p}{)}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{reachableRight}\PYG{p}{[}\PYG{n}{right}\PYG{p}{])}\PYG{+w}{ }\PYG{n}{cover}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{leftSize}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{right}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{assert}\PYG{p}{((}\PYG{k+kt}{int}\PYG{p}{)}\PYG{n}{cover}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{matchingSize}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{cover}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

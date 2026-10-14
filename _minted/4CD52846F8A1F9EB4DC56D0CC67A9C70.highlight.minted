@@ -1,0 +1,10 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// Maps p0\PYGZhy{}\PYGZgt{}p1 to q0\PYGZhy{}\PYGZgt{}q1 by translation, rotation and scaling, then maps r.}
+\PYG{c+c1}{// Requires p0 != p1. Intended for Point\PYGZlt{}double\PYGZgt{}.}
+\PYG{k}{using}\PYG{+w}{ }\PYG{n}{P}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Point}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{double}\PYG{o}{\PYGZgt{}}\PYG{p}{;}
+\PYG{n}{P}\PYG{+w}{ }\PYG{n+nf}{linearTransformation}\PYG{p}{(}\PYG{n}{P}\PYG{+w}{ }\PYG{n}{p0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{P}\PYG{+w}{ }\PYG{n}{p1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{P}\PYG{+w}{ }\PYG{n}{q0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{P}\PYG{+w}{ }\PYG{n}{q1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{P}\PYG{+w}{ }\PYG{n}{r}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{P}\PYG{+w}{ }\PYG{n}{dp}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{p1}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{p0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{dq}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{q1}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{q0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{P}\PYG{+w}{ }\PYG{n}{num}\PYG{p}{(}\PYG{n}{dp}\PYG{p}{.}\PYG{n}{cross}\PYG{p}{(}\PYG{n}{dq}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{dp}\PYG{p}{.}\PYG{n}{dot}\PYG{p}{(}\PYG{n}{dq}\PYG{p}{));}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{q0}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{P}\PYG{p}{((}\PYG{n}{r}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{p0}\PYG{p}{).}\PYG{n}{cross}\PYG{p}{(}\PYG{n}{num}\PYG{p}{),}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{r}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{p0}\PYG{p}{).}\PYG{n}{dot}\PYG{p}{(}\PYG{n}{num}\PYG{p}{))}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n}{dp}\PYG{p}{.}\PYG{n}{dist2}\PYG{p}{();}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

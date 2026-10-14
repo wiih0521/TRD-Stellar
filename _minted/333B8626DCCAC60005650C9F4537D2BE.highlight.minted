@@ -1,0 +1,27 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+ch}{\PYGZsh{}!/bin/bash}
+\PYG{c+c1}{\PYGZsh{} chmod +x run.sh \PYGZam{}\PYGZam{} ./run.sh}
+g++\PYG{+w}{ }\PYGZhy{}O3\PYG{+w}{ }\PYGZhy{}std\PYG{o}{=}c++17\PYG{+w}{ }gen.cpp\PYG{+w}{ }\PYGZhy{}o\PYG{+w}{ }gen\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nb}{exit}\PYG{+w}{ }\PYG{l+m}{1}
+g++\PYG{+w}{ }\PYGZhy{}O3\PYG{+w}{ }\PYGZhy{}std\PYG{o}{=}c++17\PYG{+w}{ }brute.cpp\PYG{+w}{ }\PYGZhy{}o\PYG{+w}{ }brute\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nb}{exit}\PYG{+w}{ }\PYG{l+m}{1}
+g++\PYG{+w}{ }\PYGZhy{}O3\PYG{+w}{ }\PYGZhy{}std\PYG{o}{=}c++17\PYG{+w}{ }sol.cpp\PYG{+w}{ }\PYGZhy{}o\PYG{+w}{ }sol\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nb}{exit}\PYG{+w}{ }\PYG{l+m}{1}
+
+\PYG{k}{for}\PYG{+w}{ }\PYG{o}{((}\PYG{n+nv}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{p}{;}\PYG{+w}{ }++i\PYG{o}{))}\PYG{p}{;}\PYG{+w}{ }\PYG{k}{do}
+\PYG{+w}{    }./gen\PYG{+w}{ }\PYGZgt{}\PYG{+w}{ }\PYG{k}{in}.txt
+\PYG{+w}{    }./brute\PYG{+w}{ }\PYGZlt{}\PYG{+w}{ }\PYG{k}{in}.txt\PYG{+w}{ }\PYGZgt{}\PYG{+w}{ }ans.txt
+\PYG{+w}{    }./sol\PYG{+w}{ }\PYGZlt{}\PYG{+w}{ }\PYG{k}{in}.txt\PYG{+w}{ }\PYGZgt{}\PYG{+w}{ }out.txt
+
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }!\PYG{+w}{ }diff\PYG{+w}{ }\PYGZhy{}w\PYG{+w}{ }ans.txt\PYG{+w}{ }out.txt\PYG{+w}{ }\PYGZgt{}\PYG{+w}{ }/dev/null\PYG{p}{;}\PYG{+w}{ }\PYG{k}{then}
+\PYG{+w}{        }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}==============================\PYGZdq{}}
+\PYG{+w}{        }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}\PYGZhy{}\PYGZgt{} WA at test }\PYG{n+nv}{\PYGZdl{}i}\PYG{l+s+s2}{!\PYGZdq{}}
+\PYG{+w}{        }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Input:\PYGZdq{}}
+\PYG{+w}{        }cat\PYG{+w}{ }\PYG{k}{in}.txt
+\PYG{+w}{        }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Expected Output (Brute):\PYGZdq{}}
+\PYG{+w}{        }cat\PYG{+w}{ }ans.txt
+\PYG{+w}{        }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Your Output (Sol):\PYGZdq{}}
+\PYG{+w}{        }cat\PYG{+w}{ }out.txt
+\PYG{+w}{        }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}==============================\PYGZdq{}}
+\PYG{+w}{        }\PYG{k}{break}
+\PYG{+w}{    }\PYG{k}{fi}
+\PYG{+w}{    }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Passed test }\PYG{n+nv}{\PYGZdl{}i}\PYG{l+s+s2}{\PYGZdq{}}
+\PYG{k}{done}
+\end{MintedVerbatim}

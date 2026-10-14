@@ -1,0 +1,25 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// sum\PYGZus{}\PYGZob{}i=0\PYGZcb{}\PYGZca{}\PYGZob{}to\PYGZhy{}1\PYGZcb{} floor((k*i+c)/m), for non\PYGZhy{}negative arguments.}
+\PYG{k}{using}\PYG{+w}{ }\PYG{n}{u64}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kt}{uint64\PYGZus{}t}\PYG{p}{;}
+
+\PYG{n}{u64}\PYG{+w}{ }\PYG{n+nf}{arithmeticSum}\PYG{p}{(}\PYG{n}{u64}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{n}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{((}\PYG{n}{n}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{|}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{);}\PYG{+w}{ }\PYG{c+c1}{// avoids overflow in n*(n\PYGZhy{}1)/2}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{u64}\PYG{+w}{ }\PYG{n+nf}{divSum}\PYG{p}{(}\PYG{n}{u64}\PYG{+w}{ }\PYG{n}{to}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{u64}\PYG{+w}{ }\PYG{n}{c}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{u64}\PYG{+w}{ }\PYG{n}{k}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{u64}\PYG{+w}{ }\PYG{n}{m}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{u64}\PYG{+w}{ }\PYG{n}{result}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{k}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n}{m}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{arithmeticSum}\PYG{p}{(}\PYG{n}{to}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{c}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n}{m}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{to}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{k}\PYG{+w}{ }\PYG{o}{\PYGZpc{}=}\PYG{+w}{ }\PYG{n}{m}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{c}\PYG{+w}{ }\PYG{o}{\PYGZpc{}=}\PYG{+w}{ }\PYG{n}{m}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n}{k}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{result}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{u64}\PYG{+w}{ }\PYG{n}{rows}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{to}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{k}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{c}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n}{m}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{result}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{to}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{rows}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{divSum}\PYG{p}{(}\PYG{n}{rows}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{m}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{c}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{m}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{k}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{// sum\PYGZus{}\PYGZob{}i=0\PYGZcb{}\PYGZca{}\PYGZob{}to\PYGZhy{}1\PYGZcb{} ((k*i+c) mod m). Result must fit in signed 64\PYGZhy{}bit.}
+\PYG{n}{ll}\PYG{+w}{ }\PYG{n+nf}{modSum}\PYG{p}{(}\PYG{n}{u64}\PYG{+w}{ }\PYG{n}{to}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{c}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{k}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{m}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{c}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{c}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n}{m}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{m}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n}{m}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{k}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{k}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n}{m}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{m}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n}{m}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{ll}\PYG{p}{)(}\PYG{n}{to}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{c}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{k}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{arithmeticSum}\PYG{p}{(}\PYG{n}{to}\PYG{p}{)}
+\PYG{+w}{              }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{m}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{divSum}\PYG{p}{(}\PYG{n}{to}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{c}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{k}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{m}\PYG{p}{));}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

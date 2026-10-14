@@ -1,0 +1,17 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// Returns 0, 1, or 2 points. Two points describe the common segment.}
+\PYG{c+c1}{// With integer points, a non\PYGZhy{}integral unique intersection is truncated.}
+\PYG{k}{template}\PYG{o}{\PYGZlt{}}\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{P}\PYG{o}{\PYGZgt{}}
+\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{P}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{segInter}\PYG{p}{(}\PYG{n}{P}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{P}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{P}\PYG{+w}{ }\PYG{n}{c}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{P}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{auto}\PYG{+w}{ }\PYG{n}{oa}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{c}\PYG{p}{.}\PYG{n}{cross}\PYG{p}{(}\PYG{n}{d}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{ob}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{c}\PYG{p}{.}\PYG{n}{cross}\PYG{p}{(}\PYG{n}{d}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{auto}\PYG{+w}{ }\PYG{n}{oc}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{.}\PYG{n}{cross}\PYG{p}{(}\PYG{n}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{c}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{od}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{.}\PYG{n}{cross}\PYG{p}{(}\PYG{n}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{sgn}\PYG{p}{(}\PYG{n}{oa}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{sgn}\PYG{p}{(}\PYG{n}{ob}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{sgn}\PYG{p}{(}\PYG{n}{oc}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{sgn}\PYG{p}{(}\PYG{n}{od}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{\PYGZob{}(}\PYG{n}{a}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{ob}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{b}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{oa}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{ob}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{oa}\PYG{p}{)\PYGZcb{};}
+\PYG{+w}{    }\PYG{n}{set}\PYG{o}{\PYGZlt{}}\PYG{n}{P}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{intersections}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{onSegment}\PYG{p}{(}\PYG{n}{c}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{))}\PYG{+w}{ }\PYG{n}{intersections}\PYG{p}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{n}{a}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{onSegment}\PYG{p}{(}\PYG{n}{c}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{))}\PYG{+w}{ }\PYG{n}{intersections}\PYG{p}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{n}{b}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{onSegment}\PYG{p}{(}\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{c}\PYG{p}{))}\PYG{+w}{ }\PYG{n}{intersections}\PYG{p}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{n}{c}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{onSegment}\PYG{p}{(}\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{))}\PYG{+w}{ }\PYG{n}{intersections}\PYG{p}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{n}{d}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n}{intersections}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{intersections}\PYG{p}{.}\PYG{n}{end}\PYG{p}{()\PYGZcb{};}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

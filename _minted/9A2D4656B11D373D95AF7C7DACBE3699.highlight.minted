@@ -1,0 +1,160 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// O(n log n) Delaunay triangulation for distinct integer points.}
+\PYG{c+c1}{// Collinear sets return no triangles. Coordinates should fit \PYGZus{}\PYGZus{}int128 products.}
+\PYG{k}{using}\PYG{+w}{ }\PYG{n}{DPoint}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Point}\PYG{o}{\PYGZlt{}}\PYG{n}{ll}\PYG{o}{\PYGZgt{}}\PYG{p}{;}
+\PYG{k}{using}\PYG{+w}{ }\PYG{n}{WideInt}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{\PYGZus{}\PYGZus{}int128\PYGZus{}t}\PYG{p}{;}
+\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{DelaunayQuad}\PYG{p}{;}
+\PYG{k}{using}\PYG{+w}{ }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{DelaunayQuad}\PYG{o}{*}\PYG{p}{;}
+
+\PYG{k}{const}\PYG{+w}{ }\PYG{n}{DPoint}\PYG{+w}{ }\PYG{n+nf}{DELAUNAY\PYGZus{}NONE}\PYG{p}{(}\PYG{n}{LLONG\PYGZus{}MAX}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{LLONG\PYGZus{}MAX}\PYG{p}{);}
+\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{DelaunayQuad}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{rot}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{nextEdge}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{DPoint}\PYG{+w}{ }\PYG{n}{point}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{DELAUNAY\PYGZus{}NONE}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{bool}\PYG{+w}{ }\PYG{n}{marked}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{false}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{DPoint}\PYG{o}{\PYGZam{}}\PYG{+w}{ }\PYG{n+nf}{destination}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{reverse}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{point}\PYG{p}{;}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n}{DQuad}\PYG{o}{\PYGZam{}}\PYG{+w}{ }\PYG{n+nf}{reverse}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{rot}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{rot}\PYG{p}{;}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n+nf}{previous}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{rot}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{nextEdge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{rot}\PYG{p}{;}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n+nf}{next}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{reverse}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{previous}\PYG{p}{();}\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+
+\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{delaunayFreeList}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{nullptr}\PYG{p}{;}
+
+\PYG{k+kt}{bool}\PYG{+w}{ }\PYG{n+nf}{inCircumcircle}\PYG{p}{(}\PYG{n}{DPoint}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{DPoint}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{DPoint}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{DPoint}\PYG{+w}{ }\PYG{n}{c}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{WideInt}\PYG{+w}{ }\PYG{n}{p2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{.}\PYG{n}{dist2}\PYG{p}{();}
+\PYG{+w}{    }\PYG{n}{WideInt}\PYG{+w}{ }\PYG{n}{A}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{WideInt}\PYG{p}{)}\PYG{n}{a}\PYG{p}{.}\PYG{n}{dist2}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{p2}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{WideInt}\PYG{+w}{ }\PYG{n}{B}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{WideInt}\PYG{p}{)}\PYG{n}{b}\PYG{p}{.}\PYG{n}{dist2}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{p2}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{WideInt}\PYG{+w}{ }\PYG{n}{C}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{WideInt}\PYG{p}{)}\PYG{n}{c}\PYG{p}{.}\PYG{n}{dist2}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{p2}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{WideInt}\PYG{p}{)}\PYG{n}{p}\PYG{p}{.}\PYG{n}{cross}\PYG{p}{(}\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{C}\PYG{+w}{ }\PYG{o}{+}
+\PYG{+w}{           }\PYG{p}{(}\PYG{n}{WideInt}\PYG{p}{)}\PYG{n}{p}\PYG{p}{.}\PYG{n}{cross}\PYG{p}{(}\PYG{n}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{c}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{A}\PYG{+w}{ }\PYG{o}{+}
+\PYG{+w}{           }\PYG{p}{(}\PYG{n}{WideInt}\PYG{p}{)}\PYG{n}{p}\PYG{p}{.}\PYG{n}{cross}\PYG{p}{(}\PYG{n}{c}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{B}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n+nf}{makeDelaunayEdge}\PYG{p}{(}\PYG{n}{DPoint}\PYG{+w}{ }\PYG{n}{origin}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{DPoint}\PYG{+w}{ }\PYG{n}{destination}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{edge}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{delaunayFreeList}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{edge}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{delaunayFreeList}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{delaunayFreeList}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{edge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{nextEdge}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{q0}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{DelaunayQuad}\PYG{p}{\PYGZob{}\PYGZcb{};}
+\PYG{+w}{        }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{q1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{DelaunayQuad}\PYG{p}{\PYGZob{}\PYGZcb{};}
+\PYG{+w}{        }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{q2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{DelaunayQuad}\PYG{p}{\PYGZob{}\PYGZcb{};}
+\PYG{+w}{        }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{q3}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{DelaunayQuad}\PYG{p}{\PYGZob{}\PYGZcb{};}
+\PYG{+w}{        }\PYG{n}{q0}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{rot}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{q1}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{q1}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{rot}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{q2}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{q2}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{rot}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{q3}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{q3}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{rot}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{q0}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{edge}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{q0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{4}\PYG{p}{;}\PYG{+w}{ }\PYG{o}{++}\PYG{n}{i}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{edge}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{edge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{rot}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{edge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{point}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{DELAUNAY\PYGZus{}NONE}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{edge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{marked}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{false}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{edge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{nextEdge}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{n}{edge}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{edge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{reverse}\PYG{p}{();}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{n}{edge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{point}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{origin}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{edge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{destination}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{destination}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{edge}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{spliceDelaunay}\PYG{p}{(}\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{swap}\PYG{p}{(}\PYG{n}{a}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{nextEdge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{rot}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{nextEdge}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{b}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{nextEdge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{rot}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{nextEdge}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{swap}\PYG{p}{(}\PYG{n}{a}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{nextEdge}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{b}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{nextEdge}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n+nf}{connectDelaunay}\PYG{p}{(}\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{edge}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{makeDelaunayEdge}\PYG{p}{(}\PYG{n}{a}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{destination}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{b}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{point}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{spliceDelaunay}\PYG{p}{(}\PYG{n}{edge}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{a}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{());}
+\PYG{+w}{    }\PYG{n}{spliceDelaunay}\PYG{p}{(}\PYG{n}{edge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{reverse}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{edge}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{n}{DQuad}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{DQuad}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{delaunayRec}\PYG{p}{(}\PYG{k}{const}\PYG{+w}{ }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{DPoint}\PYG{o}{\PYGZgt{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{n}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{)}\PYG{n}{points}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{n}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{a}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{makeDelaunayEdge}\PYG{p}{(}\PYG{n}{points}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]);}
+\PYG{+w}{        }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{b}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{makeDelaunayEdge}\PYG{p}{(}\PYG{n}{points}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{.}\PYG{n}{back}\PYG{p}{());}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{n}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{a}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{reverse}\PYG{p}{()\PYGZcb{};}
+\PYG{+w}{        }\PYG{n}{spliceDelaunay}\PYG{p}{(}\PYG{n}{a}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{reverse}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{auto}\PYG{+w}{ }\PYG{n}{side}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{].}\PYG{n}{cross}\PYG{p}{(}\PYG{n}{points}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]);}
+\PYG{+w}{        }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{c}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{side}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{n}{connectDelaunay}\PYG{p}{(}\PYG{n}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{k}{nullptr}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n}{side}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{n}{c}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{reverse}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n}{side}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{n}{c}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{b}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{reverse}\PYG{p}{()\PYGZcb{};}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{half}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{n}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{leftInner}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{rightInner}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{leftOuter}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{rightOuter}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{tie}\PYG{p}{(}\PYG{n}{leftOuter}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{leftInner}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{delaunayRec}\PYG{p}{(}
+\PYG{+w}{        }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{DPoint}\PYG{o}{\PYGZgt{}}\PYG{p}{(}\PYG{n}{points}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{half}\PYG{p}{));}
+\PYG{+w}{    }\PYG{n}{tie}\PYG{p}{(}\PYG{n}{rightInner}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{rightOuter}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{delaunayRec}\PYG{p}{(}
+\PYG{+w}{        }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{DPoint}\PYG{o}{\PYGZgt{}}\PYG{p}{(}\PYG{n}{points}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{half}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{.}\PYG{n}{end}\PYG{p}{()));}
+\PYG{+w}{    }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{((}\PYG{n}{rightInner}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{point}\PYG{p}{.}\PYG{n}{cross}\PYG{p}{(}\PYG{n}{leftInner}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{destination}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{leftInner}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{point}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}
+\PYG{+w}{            }\PYG{p}{(}\PYG{n}{leftInner}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{leftInner}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{()))}\PYG{+w}{ }\PYG{o}{||}
+\PYG{+w}{           }\PYG{p}{(}\PYG{n}{leftInner}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{point}\PYG{p}{.}\PYG{n}{cross}\PYG{p}{(}\PYG{n}{rightInner}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{destination}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{rightInner}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{point}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}
+\PYG{+w}{            }\PYG{p}{(}\PYG{n}{rightInner}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{rightInner}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{reverse}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{nextEdge}\PYG{p}{)))}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{base}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{connectDelaunay}\PYG{p}{(}\PYG{n}{rightInner}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{reverse}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{leftInner}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{leftInner}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{point}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{leftOuter}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{point}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{leftOuter}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{base}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{reverse}\PYG{p}{();}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{rightInner}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{point}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{rightOuter}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{point}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{rightOuter}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{base}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{k}{auto}\PYG{+w}{ }\PYG{n}{valid}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[}\PYG{o}{\PYGZam{}}\PYG{p}{](}\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{edge}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{edge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{destination}\PYG{p}{().}\PYG{n}{cross}\PYG{p}{(}\PYG{n}{base}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{destination}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{base}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{point}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{};}
+\PYG{+w}{    }\PYG{k}{auto}\PYG{+w}{ }\PYG{n}{removeBad}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[}\PYG{o}{\PYGZam{}}\PYG{p}{](}\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{initial}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{bool}\PYG{+w}{ }\PYG{n}{followNextEdge}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{edge}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{followNextEdge}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{n}{initial}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{nextEdge}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{initial}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{previous}\PYG{p}{();}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{valid}\PYG{p}{(}\PYG{n}{edge}\PYG{p}{))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{auto}\PYG{+w}{ }\PYG{n}{advance}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[}\PYG{o}{\PYGZam{}}\PYG{p}{](}\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{q}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{followNextEdge}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{n}{q}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{nextEdge}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{q}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{previous}\PYG{p}{();}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{};}
+\PYG{+w}{            }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{inCircumcircle}\PYG{p}{(}\PYG{n}{advance}\PYG{p}{(}\PYG{n}{edge}\PYG{p}{)}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{destination}\PYG{p}{(),}
+\PYG{+w}{                                  }\PYG{n}{base}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{destination}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{base}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{point}\PYG{p}{,}
+\PYG{+w}{                                  }\PYG{n}{edge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{destination}\PYG{p}{()))}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{next}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{advance}\PYG{p}{(}\PYG{n}{edge}\PYG{p}{);}
+\PYG{+w}{                }\PYG{n}{spliceDelaunay}\PYG{p}{(}\PYG{n}{edge}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{edge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{previous}\PYG{p}{());}
+\PYG{+w}{                }\PYG{n}{spliceDelaunay}\PYG{p}{(}\PYG{n}{edge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{reverse}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{edge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{reverse}\PYG{p}{()}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{previous}\PYG{p}{());}
+\PYG{+w}{                }\PYG{n}{edge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{nextEdge}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{delaunayFreeList}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n}{delaunayFreeList}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{edge}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n}{edge}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{next}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{edge}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{};}
+
+\PYG{+w}{    }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{true}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{leftCandidate}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{removeBad}\PYG{p}{(}\PYG{n}{base}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{reverse}\PYG{p}{(),}\PYG{+w}{ }\PYG{n+nb}{true}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{rightCandidate}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{removeBad}\PYG{p}{(}\PYG{n}{base}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nb}{false}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n}{valid}\PYG{p}{(}\PYG{n}{leftCandidate}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{o}{!}\PYG{n}{valid}\PYG{p}{(}\PYG{n}{rightCandidate}\PYG{p}{))}\PYG{+w}{ }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n}{valid}\PYG{p}{(}\PYG{n}{leftCandidate}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{||}
+\PYG{+w}{            }\PYG{p}{(}\PYG{n}{valid}\PYG{p}{(}\PYG{n}{rightCandidate}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}
+\PYG{+w}{             }\PYG{n}{inCircumcircle}\PYG{p}{(}\PYG{n}{rightCandidate}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{destination}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{base}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{destination}\PYG{p}{(),}
+\PYG{+w}{                            }\PYG{n}{base}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{point}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{leftCandidate}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{destination}\PYG{p}{())))}
+\PYG{+w}{            }\PYG{n}{base}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{connectDelaunay}\PYG{p}{(}\PYG{n}{rightCandidate}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{base}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{reverse}\PYG{p}{());}
+\PYG{+w}{        }\PYG{k}{else}
+\PYG{+w}{            }\PYG{n}{base}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{connectDelaunay}\PYG{p}{(}\PYG{n}{base}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{reverse}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{leftCandidate}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{reverse}\PYG{p}{());}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n}{leftOuter}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{rightOuter}\PYG{p}{\PYGZcb{};}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{// Flat output: every consecutive triple is one CCW triangle.}
+\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{DPoint}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{fastDelaunay}\PYG{p}{(}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{DPoint}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{sort}\PYG{p}{(}\PYG{n}{points}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{.}\PYG{n}{end}\PYG{p}{());}
+\PYG{+w}{    }\PYG{n}{assert}\PYG{p}{(}\PYG{n}{unique}\PYG{p}{(}\PYG{n}{points}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{.}\PYG{n}{end}\PYG{p}{())}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{points}\PYG{p}{.}\PYG{n}{end}\PYG{p}{());}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{points}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{};}
+\PYG{+w}{    }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{edge}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{delaunayRec}\PYG{p}{(}\PYG{n}{points}\PYG{p}{).}\PYG{n}{first}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{edge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{nextEdge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{destination}\PYG{p}{().}\PYG{n}{cross}\PYG{p}{(}\PYG{n}{edge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{destination}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{edge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{point}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{+w}{        }\PYG{n}{edge}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{edge}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{nextEdge}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{DQuad}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{queue}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{DPoint}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{result}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{auto}\PYG{+w}{ }\PYG{n}{addFace}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[}\PYG{o}{\PYGZam{}}\PYG{p}{](}\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{start}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{DQuad}\PYG{+w}{ }\PYG{n}{current}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{start}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{do}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{current}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{marked}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{true}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n}{result}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{current}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{point}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n}{queue}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{current}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{reverse}\PYG{p}{());}
+\PYG{+w}{            }\PYG{n}{current}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{current}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{next}\PYG{p}{();}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{current}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{n}{start}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{};}
+\PYG{+w}{    }\PYG{n}{addFace}\PYG{p}{(}\PYG{n}{edge}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{result}\PYG{p}{.}\PYG{n}{clear}\PYG{p}{();}\PYG{+w}{ }\PYG{c+c1}{// discard the outer face}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{)}\PYG{n}{queue}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();}\PYG{+w}{ }\PYG{o}{++}\PYG{n}{i}\PYG{p}{)}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n}{queue}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{marked}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{addFace}\PYG{p}{(}\PYG{n}{queue}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]);}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{result}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

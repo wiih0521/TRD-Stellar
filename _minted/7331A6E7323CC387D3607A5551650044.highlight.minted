@@ -1,0 +1,17 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// External tangents of two circles; negate r2 for internal tangents.}
+\PYG{c+c1}{// Returns 0, 1, or 2 pairs of tangency points.}
+\PYG{k}{template}\PYG{o}{\PYGZlt{}}\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{P}\PYG{o}{\PYGZgt{}}
+\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{n}{P}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{P}\PYG{o}{\PYGZgt{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{tangents}\PYG{p}{(}\PYG{n}{P}\PYG{+w}{ }\PYG{n}{c1}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{r1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{P}\PYG{+w}{ }\PYG{n}{c2}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{r2}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{P}\PYG{+w}{ }\PYG{n}{d}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{c2}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{c1}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{dr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{r1}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{r2}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{d2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{.}\PYG{n}{dist2}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{h2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{d2}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{dr}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{dr}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{d2}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n}{h2}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{};}
+\PYG{+w}{    }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{n}{P}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{P}\PYG{o}{\PYGZgt{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{out}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{sign}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{l+m+mf}{\PYGZhy{}1.0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{1.0}\PYG{p}{\PYGZcb{})}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{P}\PYG{+w}{ }\PYG{n}{v}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{d}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{dr}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{.}\PYG{n}{perp}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{max}\PYG{p}{(}\PYG{l+m+mf}{0.0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{h2}\PYG{p}{))}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{sign}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n}{d2}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{out}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(\PYGZob{}}\PYG{n}{c1}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{v}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{r1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{c2}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{v}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{r2}\PYG{p}{\PYGZcb{});}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{h2}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{out}\PYG{p}{.}\PYG{n}{pop\PYGZus{}back}\PYG{p}{();}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{out}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

@@ -1,0 +1,48 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// (Delta+1)\PYGZhy{}colors a simple undirected graph. O(VE).}
+\PYG{c+c1}{// Returns the color of each input edge, numbered from 0.}
+\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{edgeColoring}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{const}\PYG{+w}{ }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZgt{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{edges}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{colorsAtVertex}\PYG{p}{(}\PYG{n}{n}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{result}\PYG{p}{(}\PYG{n}{edges}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()),}\PYG{+w}{ }\PYG{n}{fan}\PYG{p}{(}\PYG{n}{n}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{freeColor}\PYG{p}{(}\PYG{n}{n}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{auto}\PYG{+w}{ }\PYG{n}{edge}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{edges}\PYG{p}{)}
+\PYG{+w}{        }\PYG{o}{++}\PYG{n}{colorsAtVertex}\PYG{p}{[}\PYG{n}{edge}\PYG{p}{.}\PYG{n}{first}\PYG{p}{],}\PYG{+w}{ }\PYG{o}{++}\PYG{n}{colorsAtVertex}\PYG{p}{[}\PYG{n}{edge}\PYG{p}{.}\PYG{n}{second}\PYG{p}{];}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{colorCount}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o}{*}\PYG{n}{max\PYGZus{}element}\PYG{p}{(}\PYG{n}{colorsAtVertex}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{colorsAtVertex}\PYG{p}{.}\PYG{n}{end}\PYG{p}{())}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{adjacent}\PYG{p}{(}\PYG{n}{n}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}}\PYG{p}{(}\PYG{n}{colorCount}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}1}\PYG{p}{));}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{auto}\PYG{+w}{ }\PYG{n}{edge}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{edges}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{u}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{edge}\PYG{p}{.}\PYG{n}{first}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{v}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{edge}\PYG{p}{.}\PYG{n}{second}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{fan}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{v}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{location}\PYG{p}{(}\PYG{n}{colorCount}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{at}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{u}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{end}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{u}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{color}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{freeColor}\PYG{p}{[}\PYG{n}{u}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{index}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{((}\PYG{n}{d}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{freeColor}\PYG{p}{[}\PYG{n}{v}\PYG{p}{]),}\PYG{+w}{ }\PYG{o}{!}\PYG{n}{location}\PYG{p}{[}\PYG{n}{d}\PYG{p}{]}
+\PYG{+w}{                }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{v}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{adjacent}\PYG{p}{[}\PYG{n}{u}\PYG{p}{][}\PYG{n}{d}\PYG{p}{])}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}1}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{location}\PYG{p}{[}\PYG{n}{d}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o}{++}\PYG{n}{index}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n}{colorsAtVertex}\PYG{p}{[}\PYG{n}{index}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n}{fan}\PYG{p}{[}\PYG{n}{index}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{v}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{n}{colorsAtVertex}\PYG{p}{[}\PYG{n}{location}\PYG{p}{[}\PYG{n}{d}\PYG{p}{]]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{color}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{current}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{at}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}1}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n}{current}\PYG{+w}{ }\PYG{o}{\PYGZca{}=}\PYG{+w}{ }\PYG{n}{color}\PYG{+w}{ }\PYG{o}{\PYGZca{}}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{at}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{adjacent}\PYG{p}{[}\PYG{n}{at}\PYG{p}{][}\PYG{n}{current}\PYG{p}{])}
+\PYG{+w}{            }\PYG{n}{swap}\PYG{p}{(}\PYG{n}{adjacent}\PYG{p}{[}\PYG{n}{at}\PYG{p}{][}\PYG{n}{current}\PYG{p}{],}
+\PYG{+w}{                 }\PYG{n}{adjacent}\PYG{p}{[}\PYG{n}{end}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{at}\PYG{p}{][}\PYG{n}{current}\PYG{+w}{ }\PYG{o}{\PYGZca{}}\PYG{+w}{ }\PYG{n}{color}\PYG{+w}{ }\PYG{o}{\PYGZca{}}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{]);}
+\PYG{+w}{        }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{adjacent}\PYG{p}{[}\PYG{n}{fan}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]][}\PYG{n}{d}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}1}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{left}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{fan}\PYG{p}{[}\PYG{n}{i}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{right}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{fan}\PYG{p}{[}\PYG{o}{++}\PYG{n}{i}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{other}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{colorsAtVertex}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];}
+\PYG{+w}{            }\PYG{n}{adjacent}\PYG{p}{[}\PYG{n}{u}\PYG{p}{][}\PYG{n}{other}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{left}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n}{adjacent}\PYG{p}{[}\PYG{n}{left}\PYG{p}{][}\PYG{n}{other}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{u}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n}{adjacent}\PYG{p}{[}\PYG{n}{right}\PYG{p}{][}\PYG{n}{other}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}1}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n}{freeColor}\PYG{p}{[}\PYG{n}{right}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{other}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{n}{adjacent}\PYG{p}{[}\PYG{n}{u}\PYG{p}{][}\PYG{n}{d}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{fan}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];}
+\PYG{+w}{        }\PYG{n}{adjacent}\PYG{p}{[}\PYG{n}{fan}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]][}\PYG{n}{d}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{u}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{vertex}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n}{fan}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{u}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{end}\PYG{p}{\PYGZcb{})}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{freeColor}\PYG{p}{[}\PYG{n}{vertex}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{            }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{adjacent}\PYG{p}{[}\PYG{n}{vertex}\PYG{p}{][}\PYG{n}{freeColor}\PYG{p}{[}\PYG{n}{vertex}\PYG{p}{]]}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}1}\PYG{p}{)}
+\PYG{+w}{                }\PYG{o}{++}\PYG{n}{freeColor}\PYG{p}{[}\PYG{n}{vertex}\PYG{p}{];}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{)}\PYG{n}{edges}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();}\PYG{+w}{ }\PYG{o}{++}\PYG{n}{i}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{u}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{edges}\PYG{p}{[}\PYG{n}{i}\PYG{p}{].}\PYG{n}{first}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{v}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{edges}\PYG{p}{[}\PYG{n}{i}\PYG{p}{].}\PYG{n}{second}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{adjacent}\PYG{p}{[}\PYG{n}{u}\PYG{p}{][}\PYG{n}{result}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]]}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{n}{v}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{++}\PYG{n}{result}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{result}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

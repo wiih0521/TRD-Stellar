@@ -1,4 +1,4 @@
-% Team Note Sample Template
+﻿% Team Note Sample Template
 % These codes should be guaranteed, fast enough, short and easy to type.
 
 \documentclass[portrait, 8pt, a4paper, oneside, twocolumn]{extarticle}
@@ -12,7 +12,6 @@
 \ShowUsage
 \ShowComplexity
 \HideAuthor
-\setcounter{tocdepth}{1}
 
 \begin{document}
 
@@ -23,21 +22,17 @@
 
 \section{Misc}
 
-\Algorithm{FastIO}
-{}{}
-{cpp}{source/Misc/FastIO.cpp}
-
-\Algorithm{Stress Tester}
-{}{}
-{batch}{source/Misc/StressTester.bat}
+% \Algorithm{FastIO}
+% {}{}
+% {cpp}{source/Misc/FastIO.cpp}
 
 \Algorithm{Stress Tester (Ubuntu)}
 {}{}
-{batch}{source/Misc/StressTester_Ubuntu.sh}
+{bash}{source/Misc/StressTester_Ubuntu.sh}
 
-\Algorithm{Bench Marker}
-{}{}
-{batch}{source/Misc/Bench_Mark.bat}
+%\Algorithm{Bench Marker}
+%{}{}
+%{batch}{source/Misc/Bench_Mark.bat}
 
 \Algorithm{Min Plus Convolution}
 {}{}
@@ -68,15 +63,9 @@
 {}{}
 {cpp}{source/Data_Structure/lichaotree.cpp}
 
-\Algorithm{Persistent Segment Tree}
-{}{}
-{cpp}{source/Data_Structure/persistent_segmenttree.cpp}
-
 \Algorithm{Treap}
 {}{}
 {cpp}{source/Data_Structure/treap.cpp}
-
-
 
 
 
@@ -103,12 +92,6 @@
 
 \Algorithm{Segment Distance}{}{$O(1)$}
 {cpp}{source/Geometry/SegmentDistance.cpp}
-
-\Algorithm{Side of Line}{}{$O(1)$}
-{cpp}{source/Geometry/SideOf.cpp}
-
-\Algorithm{Point on Segment}{}{$O(1)$}
-{cpp}{source/Geometry/OnSegment.cpp}
 
 \Algorithm{Line Intersection}{}{$O(1)$}
 {cpp}{source/Geometry/LineIntersection.cpp}
@@ -231,33 +214,10 @@
 
 
 
-
-
-
-
 \section{Graph}
-
-\Algorithm{Bellman--Ford}{}{$O(VE)$}
-{cpp}{source/Graph/BellmanFord.cpp}
-
-\Algorithm{Floyd--Warshall}{}{$O(V^3)$}
-{cpp}{source/Graph/FloydWarshall.cpp}
-
-\Algorithm{Topological Sort}{}{$O(V+E)$}
-{cpp}{source/Graph/TopoSort.cpp}
 
 \Algorithm{Dinic Max Flow}{}{$O(V^2E)$}
 {cpp}{source/Graph/max_flow.cpp}
-
-\Algorithm{Push--Relabel Max Flow}{}{$O(V^2\sqrt E)$}
-{cpp}{source/Graph/PushRelabel.cpp}
-
-\Algorithm{Edmonds--Karp}{}{$O(VE^2)$}
-{cpp}{source/Graph/EdmondsKarp.cpp}
-
-\Algorithm{Minimum Cut}
-{Run max flow first; returns the source side.}{$O(V+E)$}
-{cpp}{source/Graph/MinCut.cpp}
 
 \Algorithm{Global Minimum Cut}{}{$O(V^3)$}
 {cpp}{source/Graph/GlobalMinCut.cpp}
@@ -274,9 +234,6 @@
 \Algorithm{Hopcroft--Karp}{}{$O(E\sqrt V)$}
 {cpp}{source/Graph/max_matching.cpp}
 
-\Algorithm{DFS Bipartite Matching}{}{$O(VE)$}
-{cpp}{source/Graph/DFSMatching.cpp}
-
 \Algorithm{Bipartite Minimum Vertex Cover}{}{$O(VE)$}
 {cpp}{source/Graph/MinimumVertexCover.cpp}
 
@@ -285,9 +242,6 @@
 
 \Algorithm{General Matching (Blossom)}{}{$O(V^3)$}
 {cpp}{source/Graph/general_max_matching.cpp}
-
-\Algorithm{Strongly Connected Components}{}{$O(V+E)$}
-{cpp}{source/Graph/tarjan.cpp}
 
 \Algorithm{Block-Cut Tree}{}{$O(V+E)$}
 {cpp}{source/Graph/block_cut_tree.cpp}
@@ -308,17 +262,8 @@
 {Supports at most 200 vertices.}{Exponential, fast in practice}
 {cpp}{source/Graph/MaximumClique.cpp}
 
-\Algorithm{Binary Lifting}{}{$O(N\log N)$ build, $O(\log N)$ query}
-{cpp}{source/Graph/BinaryLifting.cpp}
-
-\Algorithm{Lowest Common Ancestor}{}{$O(N\log N)$ build, $O(\log N)$ query}
-{cpp}{source/Graph/LCA.cpp}
-
 \Algorithm{Virtual Tree}{}{$O(K\log K)$}
 {cpp}{source/Graph/CompressTree.cpp}
-
-\Algorithm{Heavy-Light Decomposition}{}{$O(\log N)$ intervals per path}
-{cpp}{source/Graph/HLD.cpp}
 
 \Algorithm{Link-Cut Tree}{}{Amortized $O(\log N)$}
 {cpp}{source/Graph/LinkCutTree.cpp}
@@ -423,9 +368,9 @@
 \Algorithm{Fraction Binary Search}{}{$O(\log N)$ predicate calls}
 {cpp}{source/Arithmetic/FractionBinarySearch.cpp}
 
-\Algorithm{Big Num Long}
-{}{}
-{cpp}{source/Arithmetic/big_num.cpp}
+% \Algorithm{Big Num Long}
+% {}{}
+% {cpp}{source/Arithmetic/big_num.cpp}
 
 \Algorithm{Chinese Remainder Theorem}
 {}{}

@@ -1,27 +1,23 @@
-/*
-    chmod +x run.sh
-    ./run.sh
-*/
-
 #!/bin/bash
+# chmod +x run.sh && ./run.sh
 g++ -O3 -std=c++17 gen.cpp -o gen || exit 1
 g++ -O3 -std=c++17 brute.cpp -o brute || exit 1
 g++ -O3 -std=c++17 sol.cpp -o sol || exit 1
 
 for ((i = 1; ; ++i)); do
-    ./gen > input.txt
-    ./brute < input.txt > brute_out.txt
-    ./sol < input.txt > sol_out.txt
+    ./gen > in.txt
+    ./brute < in.txt > ans.txt
+    ./sol < in.txt > out.txt
 
-    if ! diff -w brute_out.txt sol_out.txt > /dev/null; then
+    if ! diff -w ans.txt out.txt > /dev/null; then
         echo "=============================="
-        echo "--> WA o test $i!"
+        echo "--> WA at test $i!"
         echo "Input:"
-        cat input.txt
+        cat in.txt
         echo "Expected Output (Brute):"
-        cat brute_out.txt
+        cat ans.txt
         echo "Your Output (Sol):"
-        cat sol_out.txt
+        cat out.txt
         echo "=============================="
         break
     fi

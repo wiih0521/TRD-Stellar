@@ -67,4 +67,7 @@ struct Dinic {
         for (auto& edges : graph)
             for (Edge& edge : edges) edge.capacity = edge.original;
     }
+
+    // S-side of min cut: vertices reachable in residual graph after maxFlow()
+    bool inCut(int u) const { return level[u] != -1; }
 };

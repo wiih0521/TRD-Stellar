@@ -33,3 +33,10 @@ struct Point {
     friend istream& operator>>(istream& is, Point& p) { return is >> p.x >> p.y; }
     friend ostream& operator<<(ostream& os, const Point& p) { return os << p.x << " " << p.y; }
 };
+
+// 1 / 0 / -1: left / on / right of directed line s->e
+template<class P> int sideOf(P s, P e, P p) { return sgn(s.cross(e, p)); }
+// True if p lies on segment s-e
+template<class P> bool onSegment(P s, P e, P p) {
+    return p.cross(s, e) == 0 && (s - p).dot(e - p) <= 0;
+}

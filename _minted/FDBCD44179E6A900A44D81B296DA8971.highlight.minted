@@ -1,0 +1,47 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k}{namespace}\PYG{+w}{ }\PYG{n+nn}{MillerRabin}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{k}{using}\PYG{+w}{ }\PYG{n}{u64}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k+kt}{uint64\PYGZus{}t}\PYG{p}{;}
+\PYG{k}{using}\PYG{+w}{ }\PYG{n}{u128}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{\PYGZus{}\PYGZus{}uint128\PYGZus{}t}\PYG{p}{;}
+
+\PYG{n}{u64}\PYG{+w}{ }\PYG{n+nf}{multiply}\PYG{p}{(}\PYG{n}{u64}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{u64}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{u64}\PYG{+w}{ }\PYG{n}{mod}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{u128}\PYG{p}{)}\PYG{n}{a}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{b}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n}{mod}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{u64}\PYG{+w}{ }\PYG{n+nf}{power}\PYG{p}{(}\PYG{n}{u64}\PYG{+w}{ }\PYG{n}{base}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{u64}\PYG{+w}{ }\PYG{n}{exponent}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{u64}\PYG{+w}{ }\PYG{n}{mod}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{u64}\PYG{+w}{ }\PYG{n}{result}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{exponent}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{exponent}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{result}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{multiply}\PYG{p}{(}\PYG{n}{result}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{base}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{mod}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{base}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{multiply}\PYG{p}{(}\PYG{n}{base}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{base}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{mod}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{exponent}\PYG{+w}{ }\PYG{o}{\PYGZgt{}\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{result}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{// Deterministic for every unsigned 64\PYGZhy{}bit integer.}
+\PYG{k+kt}{bool}\PYG{+w}{ }\PYG{n+nf}{isPrime64}\PYG{p}{(}\PYG{n}{u64}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{n}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nb}{false}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{u64}\PYG{+w}{ }\PYG{n}{prime}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{2ULL}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{3ULL}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{5ULL}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{7ULL}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{11ULL}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{13ULL}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{17ULL}\PYG{p}{,}
+\PYG{+w}{                      }\PYG{l+m+mi}{19ULL}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{23ULL}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{29ULL}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{31ULL}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{37ULL}\PYG{p}{\PYGZcb{})}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{n}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n}{prime}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{n}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{prime}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{shifts}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{u64}\PYG{+w}{ }\PYG{n}{odd}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{n}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{p}{(}\PYG{n}{odd}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{))}\PYG{+w}{ }\PYG{n}{odd}\PYG{+w}{ }\PYG{o}{\PYGZgt{}\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{++}\PYG{n}{shifts}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{u64}\PYG{+w}{ }\PYG{n}{base}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{2ULL}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{325ULL}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{9375ULL}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{28178ULL}\PYG{p}{,}
+\PYG{+w}{                     }\PYG{l+m+mi}{450775ULL}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{9780504ULL}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{1795265022ULL}\PYG{p}{\PYGZcb{})}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{base}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n}{n}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{continue}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{u64}\PYG{+w}{ }\PYG{n}{value}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{power}\PYG{p}{(}\PYG{n}{base}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{odd}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{value}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n}{value}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{n}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{continue}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kt}{bool}\PYG{+w}{ }\PYG{n}{composite}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{true}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{round}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{round}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{shifts}\PYG{p}{;}\PYG{+w}{ }\PYG{o}{++}\PYG{n}{round}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{value}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{multiply}\PYG{p}{(}\PYG{n}{value}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{value}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{value}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{n}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n}{composite}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nb}{false}\PYG{p}{;}
+\PYG{+w}{                }\PYG{k}{break}\PYG{p}{;}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{composite}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nb}{false}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n+nb}{true}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

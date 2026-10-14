@@ -1,0 +1,11 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// Angles are radians: longitude phi and zenith angle theta (0=north pole).}
+\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n+nf}{sphericalDistance}\PYG{p}{(}\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{phi1}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{theta1}\PYG{p}{,}
+\PYG{+w}{                         }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{phi2}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{theta2}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{radius}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{dx}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{sin}\PYG{p}{(}\PYG{n}{theta2}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{cos}\PYG{p}{(}\PYG{n}{phi2}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{sin}\PYG{p}{(}\PYG{n}{theta1}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{cos}\PYG{p}{(}\PYG{n}{phi1}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{dy}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{sin}\PYG{p}{(}\PYG{n}{theta2}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{sin}\PYG{p}{(}\PYG{n}{phi2}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{sin}\PYG{p}{(}\PYG{n}{theta1}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{sin}\PYG{p}{(}\PYG{n}{phi1}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{dz}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{cos}\PYG{p}{(}\PYG{n}{theta2}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{cos}\PYG{p}{(}\PYG{n}{theta1}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{chord}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{dx}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{dx}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{dy}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{dy}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{dz}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{dz}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{radius}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{asin}\PYG{p}{(}\PYG{n}{clamp}\PYG{p}{(}\PYG{n}{chord}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0.0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{1.0}\PYG{p}{));}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

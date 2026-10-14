@@ -1,0 +1,12 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// Returns \PYGZob{}1, point\PYGZcb{} for a unique intersection, \PYGZob{}0, \PYGZus{}\PYGZcb{} for parallel}
+\PYG{c+c1}{// distinct lines, and \PYGZob{}\PYGZhy{}1, \PYGZus{}\PYGZcb{} for coincident lines.}
+\PYG{k}{template}\PYG{o}{\PYGZlt{}}\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{P}\PYG{o}{\PYGZgt{}}
+\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{P}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{lineInter}\PYG{p}{(}\PYG{n}{P}\PYG{+w}{ }\PYG{n}{s1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{P}\PYG{+w}{ }\PYG{n}{e1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{P}\PYG{+w}{ }\PYG{n}{s2}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{P}\PYG{+w}{ }\PYG{n}{e2}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{auto}\PYG{+w}{ }\PYG{n}{d}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{e1}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{s1}\PYG{p}{).}\PYG{n}{cross}\PYG{p}{(}\PYG{n}{e2}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{s2}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{d}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{o}{\PYGZhy{}}\PYG{p}{(}\PYG{n}{s1}\PYG{p}{.}\PYG{n}{cross}\PYG{p}{(}\PYG{n}{e1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{s2}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{P}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)\PYGZcb{};}
+\PYG{+w}{    }\PYG{k}{auto}\PYG{+w}{ }\PYG{n}{p}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{s2}\PYG{p}{.}\PYG{n}{cross}\PYG{p}{(}\PYG{n}{e1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{e2}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{q}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{s2}\PYG{p}{.}\PYG{n}{cross}\PYG{p}{(}\PYG{n}{e2}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{s1}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{s1}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{p}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{e1}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{q}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n}{d}\PYG{p}{\PYGZcb{};}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

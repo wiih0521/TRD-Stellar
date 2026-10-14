@@ -1,0 +1,26 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// Returns \PYGZob{}(parent index in result, original vertex)\PYGZcb{}; root points to itself.}
+\PYG{c+c1}{// Requires LCA. Empty subset returns empty. O(k log k).}
+\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{compressTree}\PYG{p}{(}\PYG{k}{const}\PYG{+w}{ }\PYG{n}{LCA}\PYG{o}{\PYGZam{}}\PYG{+w}{ }\PYG{n}{lca}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{vertices}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{vertices}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{())}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{};}
+\PYG{+w}{    }\PYG{k}{auto}\PYG{+w}{ }\PYG{n}{byTin}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[}\PYG{o}{\PYGZam{}}\PYG{p}{](}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{lca}\PYG{p}{.}\PYG{n}{tin}\PYG{p}{[}\PYG{n}{a}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{lca}\PYG{p}{.}\PYG{n}{tin}\PYG{p}{[}\PYG{n}{b}\PYG{p}{];}\PYG{+w}{ }\PYG{p}{\PYGZcb{};}
+\PYG{+w}{    }\PYG{n}{sort}\PYG{p}{(}\PYG{n}{vertices}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{vertices}\PYG{p}{.}\PYG{n}{end}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{byTin}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{originalSize}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{)}\PYG{n}{vertices}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{originalSize}\PYG{p}{;}\PYG{+w}{ }\PYG{o}{++}\PYG{n}{i}\PYG{p}{)}
+\PYG{+w}{        }\PYG{n}{vertices}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{lca}\PYG{p}{.}\PYG{n}{lca}\PYG{p}{(}\PYG{n}{vertices}\PYG{p}{[}\PYG{n}{i}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{vertices}\PYG{p}{[}\PYG{n}{i}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{]));}
+\PYG{+w}{    }\PYG{n}{sort}\PYG{p}{(}\PYG{n}{vertices}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{vertices}\PYG{p}{.}\PYG{n}{end}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{byTin}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{vertices}\PYG{p}{.}\PYG{n}{erase}\PYG{p}{(}\PYG{n}{unique}\PYG{p}{(}\PYG{n}{vertices}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{vertices}\PYG{p}{.}\PYG{n}{end}\PYG{p}{()),}\PYG{+w}{ }\PYG{n}{vertices}\PYG{p}{.}\PYG{n}{end}\PYG{p}{());}
+\PYG{+w}{    }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{result}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{stack}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{index}\PYG{p}{(}\PYG{n}{lca}\PYG{p}{.}\PYG{n}{parent}\PYG{p}{.}\PYG{n}{size}\PYG{p}{(),}\PYG{+w}{ }\PYG{l+m+mi}{\PYGZhy{}1}\PYG{p}{);}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{vertex}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{vertices}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n}{stack}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{o}{!}\PYG{n}{lca}\PYG{p}{.}\PYG{n}{ancestor}\PYG{p}{(}\PYG{n}{stack}\PYG{p}{.}\PYG{n}{back}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{vertex}\PYG{p}{))}
+\PYG{+w}{            }\PYG{n}{stack}\PYG{p}{.}\PYG{n}{pop\PYGZus{}back}\PYG{p}{();}
+\PYG{+w}{        }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{parentIndex}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{stack}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{)}\PYG{n}{result}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()}
+\PYG{+w}{                                        }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{index}\PYG{p}{[}\PYG{n}{stack}\PYG{p}{.}\PYG{n}{back}\PYG{p}{()];}
+\PYG{+w}{        }\PYG{n}{index}\PYG{p}{[}\PYG{n}{vertex}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{)}\PYG{n}{result}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{result}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(\PYGZob{}}\PYG{n}{parentIndex}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{vertex}\PYG{p}{\PYGZcb{});}
+\PYG{+w}{        }\PYG{n}{stack}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{vertex}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{result}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{MintedVerbatim}

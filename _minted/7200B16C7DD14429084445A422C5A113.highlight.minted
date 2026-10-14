@@ -1,0 +1,39 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{FlowWithDemand}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{BoundedEdge}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{from}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{to}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{lower}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{upper}\PYG{p}{;}\PYG{+w}{ }\PYG{p}{\PYGZcb{};}
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{source}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{sink}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{BoundedEdge}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{edges}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{FlowWithDemand}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{source}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{sink}\PYG{p}{)}
+\PYG{+w}{        }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{(}\PYG{n}{n}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{source}\PYG{p}{(}\PYG{n}{source}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{sink}\PYG{p}{(}\PYG{n}{sink}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n}{addEdge}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{from}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{to}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{lower}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{upper}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{assert}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{n}{lower}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{lower}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{n}{upper}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{edges}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(\PYGZob{}}\PYG{n}{from}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{to}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{lower}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{upper}\PYG{p}{\PYGZcb{});}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// Whether a feasible s\PYGZhy{}t flow exists with at most backCapacity total flow.}
+\PYG{+w}{    }\PYG{c+c1}{// Use LLONG\PYGZus{}MAX/4 for an unrestricted feasible flow/circulation.}
+\PYG{+w}{    }\PYG{k+kt}{bool}\PYG{+w}{ }\PYG{n}{feasible}\PYG{p}{(}\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{backCapacity}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{LLONG\PYGZus{}MAX}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mi}{4}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{const}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{superSource}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{superSink}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{n}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{        }\PYG{n}{Dinic}\PYG{+w}{ }\PYG{n+nf}{flow}\PYG{p}{(}\PYG{n}{n}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{ll}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{balance}\PYG{p}{(}\PYG{n}{n}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{auto}\PYG{+w}{ }\PYG{n}{edge}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{edges}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{flow}\PYG{p}{.}\PYG{n}{addEdge}\PYG{p}{(}\PYG{n}{edge}\PYG{p}{.}\PYG{n}{from}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{edge}\PYG{p}{.}\PYG{n}{to}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{edge}\PYG{p}{.}\PYG{n}{upper}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{edge}\PYG{p}{.}\PYG{n}{lower}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n}{balance}\PYG{p}{[}\PYG{n}{edge}\PYG{p}{.}\PYG{n}{from}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{\PYGZhy{}=}\PYG{+w}{ }\PYG{n}{edge}\PYG{p}{.}\PYG{n}{lower}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n}{balance}\PYG{p}{[}\PYG{n}{edge}\PYG{p}{.}\PYG{n}{to}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{n}{edge}\PYG{p}{.}\PYG{n}{lower}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{n}{flow}\PYG{p}{.}\PYG{n}{addEdge}\PYG{p}{(}\PYG{n}{sink}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{source}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{backCapacity}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{required}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{vertex}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{vertex}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{;}\PYG{+w}{ }\PYG{o}{++}\PYG{n}{vertex}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{balance}\PYG{p}{[}\PYG{n}{vertex}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n}{flow}\PYG{p}{.}\PYG{n}{addEdge}\PYG{p}{(}\PYG{n}{superSource}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{vertex}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{balance}\PYG{p}{[}\PYG{n}{vertex}\PYG{p}{]);}
+\PYG{+w}{                }\PYG{n}{required}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{n}{balance}\PYG{p}{[}\PYG{n}{vertex}\PYG{p}{];}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{balance}\PYG{p}{[}\PYG{n}{vertex}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n}{flow}\PYG{p}{.}\PYG{n}{addEdge}\PYG{p}{(}\PYG{n}{vertex}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{superSink}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{n}{balance}\PYG{p}{[}\PYG{n}{vertex}\PYG{p}{]);}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{flow}\PYG{p}{.}\PYG{n}{maxFlow}\PYG{p}{(}\PYG{n}{superSource}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{superSink}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{n}{required}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{MintedVerbatim}
