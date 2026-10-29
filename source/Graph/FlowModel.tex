@@ -1,20 +1,39 @@
 \normalsize
 \begin{itemize}
 
-    \item Maximum/Minimum flow with lower bound / Circulation problem
+    \item \textbf{Flow with lower bounds cheatsheet}
 
     \begin{enumerate}
- 
-        \item Construct super source $S$ and sink $T$.
-        \item For each edge $(x, y, l, u)$, connect $x \rightarrow y$ with capacity $u - l$.
-        \item For each vertex $v$, denote by $in(v)$ the difference between the sum of \textbf{incoming} lower bounds and the sum of \textbf{outgoing} lower bounds.
-        \item If $in(v) > 0$, connect $S \rightarrow v$ with capacity $in(v)$, otherwise, connect $v \rightarrow T$ with capacity $-in(v)$.
+        \item \textbf{Build the graph.} For every edge $(u,v,[l,r])$:
         \begin{itemize}
-  
-            \item To maximize, connect $t \rightarrow s$ with capacity $\infty$ (skip this in circulation problem), and let $f$ be the maximum flow from $S$ to $T$. If $f \neq \sum_{v \in V, in(v) > 0}{in(v)}$, there's no solution. Otherwise, the maximum flow from $s$ to $t$ is the answer.
-            \item To minimize, let $f$ be the maximum flow from $S$ to $T$. Connect $t \rightarrow s$ with capacity $\infty$ and let the flow from $S$ to $T$ be $f^\prime$. If $f + f^\prime \neq \sum_{v \in V, in(v) > 0}{in(v)}$, there's no solution. Otherwise, $f^\prime$ is the answer.
+            \item Add $u \rightarrow v$ with capacity $r-l$.
+            \item Set $d(u) \mathrel{-}= l$ and $d(v) \mathrel{+}= l$; hence
+            $d(v)=\sum l_{\mathrm{in}}-\sum l_{\mathrm{out}}$.
         \end{itemize}
-        \item The solution of each edge $e$ is $l_e + f_e$, where $f_e$ corresponds to the flow of edge $e$ on the graph.
+        For an $s$-$t$ flow, add $t \rightarrow s$ with capacity $\infty$
+        (lower bound $0$) to reduce it to circulation.
+
+        \item \textbf{Check feasibility.} Add a super source $S^\ast$ and a
+        super sink $T^\ast$:
+        \begin{itemize}
+            \item If $d(v)>0$, add $S^\ast \rightarrow v$ with capacity $d(v)$
+            and add $d(v)$ to $D$.
+            \item If $d(v)<0$, add $v \rightarrow T^\ast$ with capacity $-d(v)$.
+            \item The instance is feasible iff
+            $\operatorname{maxFlow}(S^\ast,T^\ast)=D$; otherwise return $-1$.
+        \end{itemize}
+
+        \item \textbf{Find the minimum/maximum flow.} Continue from the feasible
+        residual graph. Let $f_0$ be the flow on the auxiliary edge
+        $t \rightarrow s$, then disable that edge and its reverse edge by setting
+        both capacity and flow to zero. On separate copies of this residual graph:
+        \begin{itemize}
+            \item $\operatorname{maxFlowValue}=f_0+\operatorname{maxFlow}(s,t)$.
+            \item $\operatorname{minFlowValue}=f_0-\operatorname{maxFlow}(t,s)$.
+        \end{itemize}
+
+        \item \textbf{Recover edge flows.} For every original edge $e$,
+        its actual flow is $l_e+f_e$, where $f_e$ is its transformed-edge flow.
     \end{enumerate}
     \item Construct minimum vertex cover from maximum matching $M$ on bipartite graph $(X, Y)$
 

@@ -1,7 +1,7 @@
 \ProvidesPackage{teamnote}
 
 % ==== PACKAGES ====
-\usepackage[left=1cm,right=1cm,top=2cm,bottom=1cm,a4paper]{geometry}
+\usepackage[left=1cm,right=1cm,top=1.7cm,bottom=.9cm,a4paper]{geometry}
 \usepackage{fancyhdr}
 \usepackage{lastpage}
 \usepackage{minted}        % syntax highlighting (requires shell escape)
@@ -32,9 +32,26 @@
 }
 
 \setlength{\columnseprule}{0.4pt}
+% Do not stretch sparse columns to equal height; this avoids giant gaps
+% between short code blocks and the following heading.
+\raggedbottom
 \pagenumbering{arabic}
-\setminted{breaklines=true, tabsize=2, breaksymbolleft=}
+\setminted{
+  breaklines=true,
+  tabsize=2,
+  breaksymbolleft=
+}
 \usemintedstyle{perldoc}
+
+% Compact headings: the notebook is page-limited and code-heavy.
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{0pt}%
+  {-1.3ex plus -.2ex minus -.1ex}{.6ex plus .1ex}%
+  {\normalfont\large\bfseries}}
+\renewcommand\subsection{\@startsection{subsection}{2}{0pt}%
+  {-1ex plus -.15ex minus -.1ex}{.4ex plus .05ex}%
+  {\normalfont\normalsize\bfseries}}
+\makeatother
 
 % ==== SHORTCUTS ====
 \newcommand{\revised}{Should be \textcolor{red}{\textbf{revised}}.}

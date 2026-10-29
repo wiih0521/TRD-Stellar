@@ -30,3 +30,44 @@ ax^2 + bx + c = 0 \Rightarrow x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
     (a_1 + \cdots + a_n)^2 \le n(a_1^2 + \cdots + a_n^2) \\
     \frac{x_1^2}{a_1} + \cdots + \frac{x_n^2}{a_n} \ge \frac{(x_1 + \cdots + x_n)^2}{a_1 + \cdots + a_n} \quad (a_i > 0)
 \end{gather*}
+
+\subsection*{Binomial and Combinatorial Identities}
+Let $(x)_r=x(x-1)\cdots(x-r+1)$. Empty/out-of-range binomial
+coefficients are zero.
+\begin{align*}
+\binom nk&=\binom n{n-k}, &
+\binom nk&=\binom{n-1}k+\binom{n-1}{k-1},\\
+\sum_{k=0}^{n}\binom nk&=2^n, &
+\sum_{k=0}^{n}(-1)^k\binom nk&=[n=0],\\
+\sum_{k=0}^{n}k\binom nk&=n2^{n-1}, &
+\sum_{k=0}^{n}k^2\binom nk&=n(n+1)2^{n-2},\\
+\sum_{k=0}^{n}(k)_r\binom nk&=(n)_r2^{n-r}, &
+k\binom nk&=n\binom{n-1}{k-1},\\
+\sum_{k=r}^{n}\binom kr&=\binom{n+1}{r+1}, &
+\sum_k\binom rk\binom s{m-k}&=\binom{r+s}m,\\
+\sum_k\binom nk^2&=\binom{2n}n.
+\end{align*}
+\begin{align*}
+\sum_{k=0}^{m}(-1)^k\binom nk&=(-1)^m\binom{n-1}m\quad(m<n),\\
+\sum_{k=0}^{n}\frac{\binom nk}{k+1}
+  &=\frac{2^{n+1}-1}{n+1}.
+\end{align*}
+\begin{gather*}
+S_m:=\sum_{k=0}^{n}(-1)^k\binom nk k^m,\\
+S_m=\begin{cases}0&m<n,\\(-1)^n n!&m=n.\end{cases}
+\end{gather*}
+More generally,
+\begin{align*}
+\sum_{k=0}^{n}\binom nkx^k&=(1+x)^n,\\
+\sum_{k=0}^{n}k\binom nkx^k&=nx(1+x)^{n-1},\\
+\sum_{k=0}^{n}k^2\binom nkx^k
+ &=nx(1+x)^{n-1}+n(n-1)x^2(1+x)^{n-2}.
+\end{align*}
+\textbf{Proof triggers.}
+Differentiate $(1+x)^n$ for powers of $k$; use
+$k\binom nk=n\binom{n-1}{k-1}$ for weighted sums; extract the
+coefficient of $x^m$ in $(1+x)^r(1+x)^s$ for Vandermonde; telescope
+Pascal for hockey-stick; use the $n$-th finite difference for the last
+alternating identity. Also
+\[\#\{x_1+\cdots+x_r=n,\ x_i\ge0\}=\binom{n+r-1}{r-1},\qquad
+C_n=\frac1{n+1}\binom{2n}n.\]

@@ -59,8 +59,9 @@
 {}{}
 {cpp}{source/Data_Structure/fast_seg_tree.cpp}
 
-\Algorithm{Lichao Tree}
-{}{}
+\Algorithm{Li Chao Tree}
+{Integer domain $[1,n]$; supports full-line and segment-line insertion, min or max.}
+{Full line $O(\log n)$, segment $O(\log^2 n)$, query $O(\log n)$}
 {cpp}{source/Data_Structure/lichaotree.cpp}
 
 \Algorithm{Treap}
@@ -102,8 +103,9 @@
 \Algorithm{Line Projection and Reflection}{}{$O(1)$}
 {cpp}{source/Geometry/LineProjectionReflection.cpp}
 
-\Algorithm{Linear Transformation}{}{$O(1)$}
-{cpp}{source/Geometry/LinearTransformation.cpp}
+% Temporarily hidden.
+% \Algorithm{Linear Transformation}{}{$O(1)$}
+% {cpp}{source/Geometry/LinearTransformation.cpp}
 
 \Algorithm{Angle}
 {Exact integer-angle ordering for rotational sweeps.}{$O(1)$}
@@ -137,32 +139,34 @@
 \Algorithm{Line--Convex Hull Intersection}{}{$O(\log n)$}
 {cpp}{source/Geometry/LineHullIntersection.cpp}
 
-\Algorithm{Closest Pair}{}{$O(n\log n)$}
-{cpp}{source/Geometry/ClosestPair.cpp}
+% Temporarily hidden: Geometry 4.21--4.25.
+% \Algorithm{Closest Pair}{}{$O(n\log n)$}
+% {cpp}{source/Geometry/ClosestPair.cpp}
+%
+% \Algorithm{KD-tree}
+% {Static nearest-neighbor queries.}
+% {Build $O(n\log n)$, query average $O(\log n)$}
+% {cpp}{source/Geometry/KDTree.cpp}
+%
+% \Algorithm{Delaunay Triangulation}
+% {Via lifting to a 3D hull; excludes degenerate inputs.}{$O(n^2)$}
+% {cpp}{source/Geometry/DelaunayTriangulation.cpp}
+%
+% \Algorithm{Fast Delaunay Triangulation}
+% {Distinct integer points; collinear sets return no triangles.}{$O(n\log n)$}
+% {cpp}{source/Geometry/FastDelaunay.cpp}
+%
+% \Algorithm{Point 3D}{}{}
+% {cpp}{source/Geometry/Point3D.cpp}
 
-\Algorithm{KD-tree}
-{Static nearest-neighbor queries.}
-{Build $O(n\log n)$, query average $O(\log n)$}
-{cpp}{source/Geometry/KDTree.cpp}
-
-\Algorithm{Delaunay Triangulation}
-{Via lifting to a 3D hull; excludes degenerate inputs.}{$O(n^2)$}
-{cpp}{source/Geometry/DelaunayTriangulation.cpp}
-
-\Algorithm{Fast Delaunay Triangulation}
-{Distinct integer points; collinear sets return no triangles.}{$O(n\log n)$}
-{cpp}{source/Geometry/FastDelaunay.cpp}
-
-\Algorithm{Point 3D}{}{}
-{cpp}{source/Geometry/Point3D.cpp}
-
-\Algorithm{3D Convex Hull}
-{At least four points; no four coplanar.}{$O(n^2)$}
-{cpp}{source/Geometry/Hull3D.cpp}
-
-\Algorithm{Polyhedron Volume}
-{Triangular faces must point outwards.}{$O(F)$}
-{cpp}{source/Geometry/PolyhedronVolume.cpp}
+% Temporarily hidden: current Geometry 4.19--4.20.
+% \Algorithm{3D Convex Hull}
+% {At least four points; no four coplanar.}{$O(n^2)$}
+% {cpp}{source/Geometry/Hull3D.cpp}
+%
+% \Algorithm{Polyhedron Volume}
+% {Triangular faces must point outwards.}{$O(F)$}
+% {cpp}{source/Geometry/PolyhedronVolume.cpp}
 
 \Algorithm{Spherical Distance}{}{$O(1)$}
 {cpp}{source/Geometry/SphericalDistance.cpp}
@@ -222,8 +226,9 @@
 \Algorithm{Global Minimum Cut}{}{$O(V^3)$}
 {cpp}{source/Graph/GlobalMinCut.cpp}
 
-\Algorithm{Gomory--Hu Tree}{}{$O(V)$ max-flow computations}
-{cpp}{source/Graph/GomoryHu.cpp}
+% Temporarily hidden.
+% \Algorithm{Gomory--Hu Tree}{}{$O(V)$ max-flow computations}
+% {cpp}{source/Graph/GomoryHu.cpp}
 
 \Algorithm{Min-Cost Max-Flow}{}{$O(FE\log V+VE)$}
 {cpp}{source/Graph/min_cost_flow.cpp}
@@ -268,11 +273,13 @@
 \Algorithm{Link-Cut Tree}{}{Amortized $O(\log N)$}
 {cpp}{source/Graph/LinkCutTree.cpp}
 
-\Algorithm{Directed MST}{}{$O(E\log V)$}
-{cpp}{source/Graph/DirectedMST.cpp}
+% Temporarily hidden: long and rarely needed in contest.
+% \Algorithm{Directed MST}{}{$O(E\log V)$}
+% {cpp}{source/Graph/DirectedMST.cpp}
 
-\Algorithm{Dominator Tree}{}{$O((V+E)\log V)$}
-{cpp}{source/Graph/DominatorTree.cpp}
+% Temporarily hidden.
+% \Algorithm{Dominator Tree}{}{$O((V+E)\log V)$}
+% {cpp}{source/Graph/DominatorTree.cpp}
 
 \subsection{Flow Model}
 \input{source/Graph/FlowModel.tex}
@@ -302,9 +309,10 @@
 \Algorithm{Minimum Rotation}{}{$O(n)$}
 {cpp}{source/String/MinRotation.cpp}
 
-\Algorithm{String Hashing}
-{Arithmetic modulo $2^{64}-1$.}{$O(n)$ build, $O(1)$ query}
-{cpp}{source/String/Hashing.cpp}
+% Temporarily hidden.
+% \Algorithm{String Hashing}
+% {Arithmetic modulo $2^{64}-1$.}{$O(n)$ build, $O(1)$ query}
+% {cpp}{source/String/Hashing.cpp}
 
 \Algorithm{Palindrome Tree}
 {}{}
@@ -318,9 +326,10 @@
 {}{}
 {cpp}{source/String/Suffix_Automaton.cpp}
 
-\Algorithm{Suffix Tree}
-{Append a unique sentinel to expose every suffix.}{$O(n\log |\Sigma|)$}
-{cpp}{source/String/SuffixTree.cpp}
+% Temporarily hidden: Suffix Array / Suffix Automaton cover most use cases.
+% \Algorithm{Suffix Tree}
+% {Append a unique sentinel to expose every suffix.}{$O(n\log |\Sigma|)$}
+% {cpp}{source/String/SuffixTree.cpp}
 
 \Algorithm{Z Function}
 {}{}
@@ -442,8 +451,9 @@
 
 \section{Numerical}
 
-\Algorithm{Real Polynomial, Roots and Interpolation}{}{$O(n^2\log(1/\varepsilon))$}
-{cpp}{source/Combinatorics/PolynomialNumerical.cpp}
+% Temporarily hidden: the team has not used numerical polynomial routines.
+% \Algorithm{Real Polynomial, Roots and Interpolation}{}{$O(n^2\log(1/\varepsilon))$}
+% {cpp}{source/Combinatorics/PolynomialNumerical.cpp}
 
 \Algorithm{Golden Search and Hill Climbing}{}{}
 {cpp}{source/Combinatorics/Optimization.cpp}
@@ -451,16 +461,18 @@
 \Algorithm{Simpson Integration}{}{}
 {cpp}{source/Combinatorics/Integration.cpp}
 
-\Algorithm{Simplex}{}{$O(NM\cdot \text{pivots})$}
-{cpp}{source/Combinatorics/Simplex.cpp}
+% Temporarily hidden.
+% \Algorithm{Simplex}{}{$O(NM\cdot \text{pivots})$}
+% {cpp}{source/Combinatorics/Simplex.cpp}
 
 \Algorithm{Determinant}
 {Floating point and arbitrary-modulus variants.}{$O(n^3)$}
 {cpp}{source/Combinatorics/Determinant.cpp}
 
-\Algorithm{Solve Linear 2}
-{Returns every uniquely determined variable; others are NaN.}{$O(nm\min(n,m))$}
-{cpp}{source/Combinatorics/SolveLinear2.cpp}
+% Temporarily hidden: specialized determined-variable reporting.
+% \Algorithm{Solve Linear 2}
+% {Returns every uniquely determined variable; others are NaN.}{$O(nm\min(n,m))$}
+% {cpp}{source/Combinatorics/SolveLinear2.cpp}
 
 \Algorithm{Matrix Inverse}{}{$O(n^3)$}
 {cpp}{source/Combinatorics/MatrixInverse.cpp}
@@ -489,9 +501,10 @@
 {$O(N^2)$ / $O(L^2\log k)$}
 {cpp}{source/Combinatorics/BerlekampMassey.cpp}
 
-\Algorithm{FFT + Poly Utilities}
-{}{}
-{cpp}{source/Combinatorics/Poly.cpp}
+% Temporarily hidden: keep the smaller NTT convolution instead.
+% \Algorithm{FFT + Poly Utilities}
+% {}{}
+% {cpp}{source/Combinatorics/Poly.cpp}
 
 
 \Algorithm{AND / OR / XOR Convolution}

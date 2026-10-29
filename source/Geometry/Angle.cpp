@@ -3,10 +3,7 @@ struct Angle {
     int x, y, turns;
     Angle(int x, int y, int turns = 0) : x(x), y(y), turns(turns) {}
     Angle operator-(Angle b) const { return {x - b.x, y - b.y, turns}; }
-    int half() const {
-        assert(x || y);
-        return y < 0 || (y == 0 && x < 0);
-    }
+    int half() const { assert(x || y); return y < 0 || (y == 0 && x < 0); }
     Angle t90() const { return {-y, x, turns + (half() && x >= 0)}; }
     Angle t180() const { return {-x, -y, turns + half()}; }
     Angle t360() const { return {x, y, turns + 1}; }
@@ -31,7 +28,5 @@ Angle operator+(Angle a, Angle b) {
 Angle angleDiff(Angle a, Angle b) {
     int turns = b.turns - a.turns;
     a.turns = b.turns;
-    return {a.x * b.x + a.y * b.y,
-            a.x * b.y - a.y * b.x,
-            turns - (b < a)};
+    return {a.x*b.x + a.y*b.y, a.x*b.y - a.y*b.x, turns - (b < a)};
 }
