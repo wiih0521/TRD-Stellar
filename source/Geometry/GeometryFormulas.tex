@@ -15,17 +15,31 @@ $BC$ at $D$, then $BD:DC=AB:AC$. For a cyclic quadrilateral,
  AC\cdot BD=AB\cdot CD+BC\cdot DA,\qquad
  K=\sqrt{(s-a)(s-b)(s-c)(s-d)}.
 \]
+For vectors and a nondegenerate polygon $p_0,\ldots,p_{n-1}$ with
+$p_n=p_0$, let $S=\sum_i p_i\times p_{i+1}$ (signed doubled area). Then
+\begin{align*}
+ d(p,\overleftrightarrow{ab})
+   &=\frac{|(b-a)\times(p-a)|}{|b-a|},\\
+ \operatorname{proj}_{v}(u)&=v\frac{u\cdot v}{v\cdot v},\\
+ K&=\frac{|S|}{2},\\
+ G&=\frac1{3S}\sum_i(p_i+p_{i+1})(p_i\times p_{i+1}).
+\end{align*}
 For a circle of radius $r$ and central angle $\theta$ (radians),
-\[
+\begin{gather*}
  L=r\theta,\qquad A_{\rm sector}=\frac{r^2\theta}{2},\qquad
- A_{\rm segment}=\frac{r^2}{2}(\theta-\sin\theta).
-\]
+ A_{\rm segment}=\frac{r^2}{2}(\theta-\sin\theta),\\
+ \operatorname{chord}=2r\sin\frac\theta2,\qquad
+ d_{\rm center\text{-}chord}=r\cos\frac\theta2.
+\end{gather*}
 For a regular $n$-gon of side $a$,
 \[
  R=\frac{a}{2\sin(\pi/n)},\quad r=\frac{a}{2\tan(\pi/n)},\quad
  K=\frac{na^2}{4\tan(\pi/n)}.
 \]
-Pick's theorem for a lattice polygon: $K=I+B/2-1$. Common volumes:
+For lattice points $A,B$, a closed segment contains
+$\gcd(|\Delta x|,|\Delta y|)+1$ lattice points; hence a lattice polygon has
+$B=\sum_i\gcd(|\Delta x_i|,|\Delta y_i|)$ boundary points. Pick's theorem:
+$K=I+B/2-1$. Common volumes:
 \begin{align*}
  V_{\rm sphere}&=\frac43\pi r^3, & V_{\rm cone}&=\frac13\pi r^2h,\\
  V_{\rm cylinder}&=\pi r^2h, & V_{\rm pyramid}&=\frac13Bh.

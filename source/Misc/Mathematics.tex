@@ -71,3 +71,19 @@ Pascal for hockey-stick; use the $n$-th finite difference for the last
 alternating identity. Also
 \[\#\{x_1+\cdots+x_r=n,\ x_i\ge0\}=\binom{n+r-1}{r-1},\qquad
 C_n=\frac1{n+1}\binom{2n}n.\]
+
+\subsection*{Common Combinatorial Sequences}
+\begin{gather*}
+C_0=1,\qquad C_{n+1}=\sum_{k=0}^{n}C_kC_{n-k},\\
+D_0=1,\ D_1=0,\qquad D_n=(n-1)(D_{n-1}+D_{n-2}),\\
+D_n=n!\sum_{k=0}^{n}\frac{(-1)^k}{k!},\\
+{n\brace k}={n-1\brace k-1}+k{n-1\brace k},\qquad
+B_n=\sum_{k=0}^{n}{n\brace k},\\
+F_n:=\sum_{k=0}^{n}\binom nk^3,\qquad F_0=1,\ F_1=2,\\
+(n+1)^2F_{n+1}=(7n^2+7n+2)F_n+8n^2F_{n-1}.
+\end{gather*}
+Here $C_n$ are Catalan numbers, $D_n$ derangements, ${n\brace k}$
+Stirling numbers of the second kind, $B_n$ Bell numbers, and $F_n$
+Franel numbers (the last recurrence is for $n\ge1$).
+Lucas' theorem (prime $p$): if $n=\sum n_ip^i$ and $k=\sum k_ip^i$,
+then $\displaystyle\binom nk\equiv\prod_i\binom{n_i}{k_i}\pmod p$.
